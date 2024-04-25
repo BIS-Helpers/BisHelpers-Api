@@ -1,0 +1,6 @@
+@BisHelpers.web_HostAddress = http://localhost:5274
+
+GET {{BisHelpers.web_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
