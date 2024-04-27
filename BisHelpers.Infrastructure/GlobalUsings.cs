@@ -1,5 +1,12 @@
-﻿global using BisHelpers.Domain.Entities;
+﻿global using System.Linq.Expressions;
+global using BisHelpers.Application.Interfaces;
+global using BisHelpers.Application.Interfaces.Repositories;
+global using BisHelpers.Domain.Consts;
+global using BisHelpers.Domain.Entities;
+global using BisHelpers.Infrastructure.Data;
+global using BisHelpers.Infrastructure.Extensions;
 global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.Query;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;

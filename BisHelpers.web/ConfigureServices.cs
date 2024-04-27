@@ -2,19 +2,16 @@
 
 public static class ConfigureServices
 {
-    public static IServiceCollection AddPresentationServices(this IServiceCollection services)
+    public static IServiceCollection AddPresentationServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddControllers();
         services.AddEndpointsApiExplorer();
-        services.AddSwaggerGen();
-
-        services.AddIdentity<AppUser, IdentityRole>(options =>
-        {
-            options.SignIn.RequireConfirmedAccount = true;
-        })
-        .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+        services.AddSwaggerGenCustom();
+        services.AddAuthenticationCustom(configuration);
+        services.AddIdentityCustom();
 
         services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, ApplicationUserClaimsPrincipalFactory>();
+        services.AddValidatorsFromAssemblyContaining<Program>();
 
         return services;
     }

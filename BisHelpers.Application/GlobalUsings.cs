@@ -1,0 +1,12 @@
+﻿global using System.Linq.Expressions;
+global using System.Security.Claims;
+global using BisHelpers.Application.Extensions;
+global using BisHelpers.Application.Interfaces;
+global using BisHelpers.Application.Services.Auth;
+global using BisHelpers.Application.Services.Student;
+global using BisHelpers.Domain.Consts;
+global using BisHelpers.Domain.Dtos;
+global using BisHelpers.Domain.Entities;
+global using Microsoft.AspNetCore.Identity;
+global using Microsoft.EntityFrameworkCore.Query;
+global using Microsoft.Extensions.DependencyInjection;

@@ -1,4 +1,4 @@
-﻿namespace BisHelpers.web.Extensions;
+﻿namespace BisHelpers.Application.Extensions;
 
 public static class UserExtensions
 {
