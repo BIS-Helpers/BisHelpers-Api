@@ -10,7 +10,8 @@ public static class DefaultUsers
             Email = "admin@bishelpers.com",
             FullName = "Bis Helpers Admin",
             EmailConfirmed = true,
-            BirthDate = DateTime.UtcNow
+            BirthDate = DateTime.UtcNow,
+            Gender = "male"
         };
 
         var user = await userManager.FindByEmailAsync(admin.Email);

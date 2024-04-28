@@ -24,6 +24,10 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
+using var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
+await DefaultRoles.SeedAsync(scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>());
+await DefaultUsers.SeedAdminUserAsync(scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>());
+
 app.MapControllers();
 
 #region MapGroups

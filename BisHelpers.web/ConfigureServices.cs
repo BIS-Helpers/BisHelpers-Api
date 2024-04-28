@@ -7,8 +7,9 @@ public static class ConfigureServices
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGenCustom();
-        services.AddAuthenticationCustom(configuration);
         services.AddIdentityCustom();
+        services.AddAuthenticationCustom(configuration);
+        services.AddAuthorization();
 
         services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, ApplicationUserClaimsPrincipalFactory>();
         services.AddValidatorsFromAssemblyContaining<Program>();

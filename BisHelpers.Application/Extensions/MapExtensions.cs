@@ -6,10 +6,11 @@ public static class MapExtensions
         var user = new AppUser
         {
             Email = model.Email,
+            UserName = model.Email,
             FullName = model.FullName,
             BirthDate = model.BirthDate,
             PhoneNumber = model.PhoneNumber,
-            Gender = model.Gender,
+            Gender = model.Gender.ToLower(),
         };
 
         return user;
@@ -24,5 +25,19 @@ public static class MapExtensions
         };
 
         return student;
+    }
+
+    public static ProfileDto MapToProfileDto(this AppUser model)
+    {
+        var profile = new ProfileDto
+        {
+            FullName = model.FullName,
+            Email = model.Email ?? string.Empty,
+            PhoneNumber = model.PhoneNumber ?? string.Empty,
+            Gender = model.Gender,
+            BirthDate = model.BirthDate,
+        };
+
+        return profile;
     }
 }

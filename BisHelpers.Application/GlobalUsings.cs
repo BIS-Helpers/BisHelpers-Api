@@ -8,5 +8,6 @@ global using BisHelpers.Domain.Consts;
 global using BisHelpers.Domain.Dtos;
 global using BisHelpers.Domain.Entities;
 global using Microsoft.AspNetCore.Identity;
+global using Microsoft.EntityFrameworkCore;
 global using Microsoft.EntityFrameworkCore.Query;
 global using Microsoft.Extensions.DependencyInjection;
