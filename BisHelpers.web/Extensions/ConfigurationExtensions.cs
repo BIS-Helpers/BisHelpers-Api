@@ -10,6 +10,8 @@ public static class ConfigurationExtensions
             {
                 Type = SecuritySchemeType.Http,
                 Scheme = "Bearer",
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header,
                 Description = "Enter your bearer token in this format: Bearer {your-token}"
             });
 

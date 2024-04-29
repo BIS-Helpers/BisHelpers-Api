@@ -31,7 +31,7 @@ await DefaultUsers.SeedAdminUserAsync(scope.ServiceProvider.GetRequiredService<U
 app.MapControllers();
 
 #region MapGroups
-app.MapGroup("/Auth").GroupAuth();
+app.MapGroup("/Auth").GroupAuth().WithTags("Authentication");
 #endregion
 
 app.Run();

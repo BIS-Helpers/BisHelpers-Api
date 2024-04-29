@@ -6,4 +6,6 @@ public interface IAuthService
     public Task<(bool IsSuccess, ProfileDto? model, string? ErrorMessage)> GetProfileAsync(string userId);
     public Task<(bool IsSuccess, AuthDto? model, string? ErrorMessage)> GetTokenAsync(LoginDto model);
     public Task<(bool IsSuccess, AuthDto? model, string? ErrorMessage)> RefreshTokenAsync(string token);
+    public Task<(bool IsSuccess, string? ErrorMessage)> ResetPasswordAsync(ResetPasswordDto model, string userId);
+    public Task<(bool IsSuccess, string? ErrorMessage)> UpdateProfileAsync(ProfileUpdateDto model, string userId);
 }

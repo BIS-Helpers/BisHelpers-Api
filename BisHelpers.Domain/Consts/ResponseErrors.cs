@@ -35,6 +35,22 @@ public static class ResponseErrors
         return error;
     }
 
+    public static ErrorDto ResetPassword(string? details = null)
+    {
+        ErrorDto error = new()
+        {
+            StatusCode = 400,
+            ErrorCode = "4007",
+
+            Message = "Unable to reset user password",
+            Details = details ?? string.Empty,
+
+            Suggestion = "Please review the request and the documentation https://bishelpers.apidog.io/",
+        };
+
+        return error;
+    }
+
     public static ErrorDto Get(string? details = null)
     {
         ErrorDto error = new()
@@ -43,6 +59,22 @@ public static class ResponseErrors
             ErrorCode = "4003",
 
             Message = "Unable to get the the info",
+            Details = details ?? string.Empty,
+
+            Suggestion = "Please review the request and the documentation https://bishelpers.apidog.io/",
+        };
+
+        return error;
+    }
+
+    public static ErrorDto Put(string? details = null)
+    {
+        ErrorDto error = new()
+        {
+            StatusCode = 400,
+            ErrorCode = "4006",
+
+            Message = "Unable to update the entity",
             Details = details ?? string.Empty,
 
             Suggestion = "Please review the request and the documentation https://bishelpers.apidog.io/",

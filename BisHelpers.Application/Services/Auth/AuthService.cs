@@ -97,6 +97,44 @@ public class AuthService(UserManager<AppUser> userManager, RoleManager<IdentityR
         return (IsSuccess: true, model: authModel, ErrorMessage: null);
     }
 
+    public async Task<(bool IsSuccess, string? ErrorMessage)> ResetPasswordAsync(ResetPasswordDto model, string userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+
+        if (user is null)
+            return (IsSuccess: false, ErrorMessage: "User Not Found!");
+
+        var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+
+        if (!changePasswordResult.Succeeded)
+            return (IsSuccess: false, ErrorMessage: changePasswordResult.ToCustomErrorString());
+
+        return (IsSuccess: true, ErrorMessage: null);
+    }
+
+    public async Task<(bool IsSuccess, string? ErrorMessage)> UpdateProfileAsync(ProfileUpdateDto model, string userId)
+    {
+        var user = await _userManager.Users
+            .Include(u => u.Student)
+            .FirstOrDefaultAsync(u => u.Id == userId);
+
+        if (user is null)
+            return (IsSuccess: false, ErrorMessage: "User Not Found!");
+
+        user.FullName = model.FullName;
+        user.Email = model.Email;
+        user.PhoneNumber = model.PhoneNumber;
+        user.Gender = model.Gender;
+        user.BirthDate = model.BirthDate;
+
+        var updateResult = await _userManager.UpdateAsync(user);
+
+        if (!updateResult.Succeeded)
+            return (IsSuccess: false, ErrorMessage: updateResult.ToCustomErrorString());
+
+        return (IsSuccess: true, ErrorMessage: null);
+    }
+
     public async Task<(bool IsSuccess, AuthDto? model, string? ErrorMessage)> RefreshTokenAsync(string token)
     {
         var user = await _userManager.Users.Include(u => u.RefreshTokens).SingleOrDefaultAsync(u => u.RefreshTokens!.Any(t => t.Token == token));
