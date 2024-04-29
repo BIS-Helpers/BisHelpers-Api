@@ -1,6 +1,4 @@
-﻿using BisHelpers.Application.Services.Student;
-
-namespace BisHelpers.Application;
+﻿namespace BisHelpers.Application;
 public static class ConfigureServices
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)

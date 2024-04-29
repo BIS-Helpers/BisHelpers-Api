@@ -1,4 +1,4 @@
 ﻿namespace BisHelpers.Domain;
-internal class BaseDto
+public class BaseDto
 {
 }
