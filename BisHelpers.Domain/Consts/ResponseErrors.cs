@@ -3,15 +3,15 @@
 namespace BisHelpers.Domain.Consts;
 public static class ResponseErrors
 {
-    public static ErrorDto Validation(string message = "The request payload contains invalid or missing data.", string details = "none", string suggestion = "Please review the request and the documentation https://bishelpers.apidog.io/ and ensure that all required fields are provided and conform to the expected data format and validation rules.")
+    public static ErrorDto Validation(string details = "none")
     {
         ErrorDto error = new()
         {
             StatusCode = 400,
             ErrorCode = "4001",
-            Message = message,
+            Message = "The request payload contains invalid or missing data.",
             Details = details,
-            Suggestion = suggestion,
+            Suggestion = "Please review the request and the documentation https://bishelpers.apidog.io/ and ensure that all required fields are provided and conform to the expected data format and validation rules.",
         };
 
         return error;
