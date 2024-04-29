@@ -9,8 +9,10 @@ public static class ResponseErrors
         {
             StatusCode = 400,
             ErrorCode = "4001",
+
             Message = "The request payload contains invalid or missing data.",
             Details = details,
+
             Suggestion = "Please review the request and the documentation https://bishelpers.apidog.io/ and ensure that all required fields are provided and conform to the expected data format and validation rules.",
         };
 
