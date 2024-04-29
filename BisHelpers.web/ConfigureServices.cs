@@ -1,4 +1,6 @@
-﻿namespace BisHelpers.web;
+﻿using BisHelpers.Domain.Models;
+
+namespace BisHelpers.web;
 
 public static class ConfigureServices
 {
@@ -11,6 +13,7 @@ public static class ConfigureServices
         services.AddAuthenticationCustom(configuration);
         services.AddAuthorization();
 
+        services.Configure<JWT>(configuration.GetSection("Authentication"));
         services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, ApplicationUserClaimsPrincipalFactory>();
         services.AddValidatorsFromAssemblyContaining<Program>();
 

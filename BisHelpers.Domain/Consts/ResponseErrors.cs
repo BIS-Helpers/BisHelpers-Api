@@ -48,4 +48,36 @@ public static class ResponseErrors
 
         return error;
     }
+
+    public static ErrorDto Login(string? details = null)
+    {
+        ErrorDto error = new()
+        {
+            StatusCode = 400,
+            ErrorCode = "4004",
+
+            Message = "Unable to login to system",
+            Details = details ?? string.Empty,
+
+            Suggestion = "Please review the request and the documentation https://bishelpers.apidog.io/",
+        };
+
+        return error;
+    }
+
+    public static ErrorDto RefreshToken(string? details = null)
+    {
+        ErrorDto error = new()
+        {
+            StatusCode = 400,
+            ErrorCode = "4005",
+
+            Message = "Unable to use refresh token",
+            Details = details ?? string.Empty,
+
+            Suggestion = "Please review the request and the documentation https://bishelpers.apidog.io/",
+        };
+
+        return error;
+    }
 }

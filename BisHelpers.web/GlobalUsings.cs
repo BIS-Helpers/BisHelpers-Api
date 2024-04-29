@@ -1,6 +1,7 @@
 ﻿global using System.Security.Claims;
 global using System.Text;
 global using BisHelpers.Application;
+global using BisHelpers.Application.Extensions;
 global using BisHelpers.Application.Services.Auth;
 global using BisHelpers.Domain.Consts;
 global using BisHelpers.Domain.Dtos;

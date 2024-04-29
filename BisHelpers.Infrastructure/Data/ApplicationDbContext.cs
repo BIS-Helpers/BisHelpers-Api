@@ -13,6 +13,10 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         #region ConfigureKeys
         builder.Entity<RefreshToken>()
             .HasKey(e => new { e.Id, e.UserId });
+
+        builder.Entity<RefreshToken>()
+          .Property(e => e.Id)
+          .UseIdentityColumn();
         #endregion
 
         #region ConfigureRelations

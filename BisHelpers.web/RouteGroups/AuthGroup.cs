@@ -19,9 +19,47 @@ public static class AuthGroup
             return Results.Ok("User Registered Successfully");
         });
 
-        builder.MapGet("getProfile/{userId}", [Authorize] async ([FromRoute] string userId, IAuthService authService) =>
+        builder.MapPost("login", async ([FromBody] LoginDto loginForm, IValidator<LoginDto> validator, IAuthService authService, HttpResponse response) =>
         {
-            var getProfileResult = await authService.GetProfileAsync(userId);
+            var validationResult = validator.Validate(loginForm);
+
+            if (!validationResult.IsValid)
+                return Results.BadRequest(ResponseErrors.Validation(details: validationResult.ToCustomString()));
+
+            var loginResult = await authService.GetTokenAsync(loginForm);
+
+            if (!loginResult.IsSuccess || loginResult.model is null)
+                return Results.BadRequest(ResponseErrors.Login(details: loginResult.ErrorMessage));
+
+            response.SetRefreshTokenCookie(
+                expiresOn: loginResult.model.RefreshTokenExpiration,
+                refreshToken: loginResult.model.RefreshToken);
+
+            return Results.Ok(loginResult.model);
+        });
+
+        builder.MapPost("refreshToken", async (IAuthService authService, HttpRequest request, HttpResponse response) =>
+        {
+            var refreshToken = request.Cookies["refreshToken"];
+
+            if (string.IsNullOrEmpty(refreshToken))
+                return Results.BadRequest(ResponseErrors.RefreshToken(details: "Request Cookie: \"refreshToken\" is empty!"));
+
+            var refreshTokenResult = await authService.RefreshTokenAsync(refreshToken);
+
+            if (!refreshTokenResult.IsSuccess || refreshTokenResult.model is null)
+                return Results.BadRequest(ResponseErrors.RefreshToken(details: refreshTokenResult.ErrorMessage));
+
+            response.SetRefreshTokenCookie(
+                expiresOn: refreshTokenResult.model.RefreshTokenExpiration,
+                refreshToken: refreshTokenResult.model.RefreshToken);
+
+            return Results.Ok(refreshTokenResult.model);
+        });
+
+        builder.MapGet("getProfile", [Authorize] async (IAuthService authService, ClaimsPrincipal user) =>
+        {
+            var getProfileResult = await authService.GetProfileAsync(user.GetUserId());
 
             if (!getProfileResult.IsSuccess)
                 return Results.BadRequest(ResponseErrors.Get(details: getProfileResult.ErrorMessage));
