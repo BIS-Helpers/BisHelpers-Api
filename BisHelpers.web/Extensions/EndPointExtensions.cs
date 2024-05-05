@@ -12,6 +12,9 @@ public static class EndPointExtensions
     public static RouteHandlerBuilder OkRouteConfiguration(this RouteHandlerBuilder route) =>
         route.Produces(200);
 
+    public static RouteHandlerBuilder CreatedRouteConfiguration(this RouteHandlerBuilder route) =>
+    route.Produces(201);
+
     public static RouteHandlerBuilder OkRouteConfiguration<T>(this RouteHandlerBuilder route) =>
         route.Produces<T>(200);
 

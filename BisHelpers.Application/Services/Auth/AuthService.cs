@@ -1,52 +1,48 @@
 ﻿namespace BisHelpers.Application.Services.Auth;
 
-public class AuthService(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, IStudentService studentService, IUnitOfWork unitOfWork, IOptions<JWT> jwt) : IAuthService
+public class AuthService(UserManager<AppUser> userManager, IUnitOfWork unitOfWork, IOptions<JWT> jwt) : IAuthService
 {
     private readonly UserManager<AppUser> _userManager = userManager;
-    private readonly RoleManager<IdentityRole> _roleManager = roleManager;
-    private readonly IStudentService _studentService = studentService;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly JWT _jwt = jwt.Value;
 
-    public async Task<(bool IsSuccess, string? ErrorMessage)> RegisterAsync(RegisterDto model)
+    public async Task<Response> RegisterAsync(RegisterDto model)
     {
         var user = await _userManager.FindByEmailAsync(model.Email);
-
         if (user is not null)
-            return (IsSuccess: false, ErrorMessage: "Email is already registered!");
+            return new Response { ErrorBody = ResponseErrors.Email40010 };
 
         var newUser = model.MapToAppUser();
 
         await _unitOfWork.BeginTransaction();
 
         var createUserResult = await _userManager.CreateAsync(newUser, model.Password);
-
         if (!createUserResult.Succeeded)
-            return (IsSuccess: false, ErrorMessage: createUserResult.ToCustomErrorString());
+            return new Response { ErrorBody = ResponseErrors.Identity40020(createUserResult) };
 
         var addToRoleResult = await _userManager.AddToRoleAsync(newUser, AppRoles.Student);
-
         if (!addToRoleResult.Succeeded)
-            return (IsSuccess: false, ErrorMessage: addToRoleResult.ToCustomErrorString());
+            return new Response { ErrorBody = ResponseErrors.Identity40021(addToRoleResult) };
 
-        var createStudentResult = await _studentService.CreateAsync(model, newUser.Id);
+        newUser.Student = model.MapToStudent();
 
-        if (!createStudentResult.IsSuccess)
-            return (IsSuccess: false, createStudentResult.ErrorMessage);
+        var updateUserResult = await _userManager.UpdateAsync(newUser);
+        if (!updateUserResult.Succeeded)
+            return new Response { ErrorBody = ResponseErrors.Identity40022(updateUserResult) };
 
         await _unitOfWork.TransactionCommit();
 
-        return (IsSuccess: true, ErrorMessage: null);
+        return new Response { IsSuccess = true };
     }
 
-    public async Task<(bool IsSuccess, ProfileDto? model, string? ErrorMessage)> GetProfileAsync(string userId)
+    public async Task<Response<ProfileDto>> GetProfileAsync(string userId)
     {
         var user = await _userManager.Users
             .Include(u => u.Student)
             .FirstOrDefaultAsync(u => u.Id == userId);
 
         if (user is null)
-            return (IsSuccess: false, model: null, ErrorMessage: "User Not Found!");
+            return new Response<ProfileDto> { ErrorBody = ResponseErrors.NotFound40040 };
 
         var profileDto = user.MapToProfileDto();
 
@@ -56,17 +52,17 @@ public class AuthService(UserManager<AppUser> userManager, RoleManager<IdentityR
             profileDto.Level = user.Student.DateOfJoin.ToCollegeLevel();
         }
 
-        return (IsSuccess: true, model: profileDto, ErrorMessage: null);
+        return new Response<ProfileDto> { IsSuccess = true, Model = profileDto };
     }
 
-    public async Task<(bool IsSuccess, AuthDto? model, string? ErrorMessage)> GetTokenAsync(LoginDto model)
+    public async Task<Response<AuthDto>> GetTokenAsync(LoginDto model)
     {
         var user = await _userManager.Users.Include(u => u.RefreshTokens).FirstOrDefaultAsync(r => r.Email == model.Email);
 
         var isCorrectPassword = user is not null && await _userManager.CheckPasswordAsync(user, model.Password);
 
         if (!isCorrectPassword || user!.IsDeleted)
-            return (IsSuccess: false, model: null, ErrorMessage: "Email or Password is incorrect!");
+            return new Response<AuthDto> { ErrorBody = ResponseErrors.Identity40023 };
 
         var userRoles = await _userManager.GetRolesAsync(user);
         var userClaims = await _userManager.GetClaimsAsync(user);
@@ -94,58 +90,20 @@ public class AuthService(UserManager<AppUser> userManager, RoleManager<IdentityR
             authModel.RefreshTokenExpiration = refreshToken.ExpiresOn;
         }
 
-        return (IsSuccess: true, model: authModel, ErrorMessage: null);
+        return new Response<AuthDto> { IsSuccess = true, Model = authModel };
     }
 
-    public async Task<(bool IsSuccess, string? ErrorMessage)> ResetPasswordAsync(ResetPasswordDto model, string userId)
-    {
-        var user = await _userManager.FindByIdAsync(userId);
-
-        if (user is null)
-            return (IsSuccess: false, ErrorMessage: "User Not Found!");
-
-        var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
-
-        if (!changePasswordResult.Succeeded)
-            return (IsSuccess: false, ErrorMessage: changePasswordResult.ToCustomErrorString());
-
-        return (IsSuccess: true, ErrorMessage: null);
-    }
-
-    public async Task<(bool IsSuccess, string? ErrorMessage)> UpdateProfileAsync(ProfileUpdateDto model, string userId)
-    {
-        var user = await _userManager.Users
-            .Include(u => u.Student)
-            .FirstOrDefaultAsync(u => u.Id == userId);
-
-        if (user is null)
-            return (IsSuccess: false, ErrorMessage: "User Not Found!");
-
-        user.FullName = model.FullName;
-        user.Email = model.Email;
-        user.PhoneNumber = model.PhoneNumber;
-        user.Gender = model.Gender;
-        user.BirthDate = model.BirthDate;
-
-        var updateResult = await _userManager.UpdateAsync(user);
-
-        if (!updateResult.Succeeded)
-            return (IsSuccess: false, ErrorMessage: updateResult.ToCustomErrorString());
-
-        return (IsSuccess: true, ErrorMessage: null);
-    }
-
-    public async Task<(bool IsSuccess, AuthDto? model, string? ErrorMessage)> RefreshTokenAsync(string token)
+    public async Task<Response<AuthDto>> RefreshTokenAsync(string token)
     {
         var user = await _userManager.Users.Include(u => u.RefreshTokens).SingleOrDefaultAsync(u => u.RefreshTokens!.Any(t => t.Token == token));
 
         if (user is null)
-            return (IsSuccess: false, model: null, ErrorMessage: "Invalid token!");
+            return new Response<AuthDto> { ErrorBody = ResponseErrors.Identity40024 };
 
         var refreshToken = user.RefreshTokens!.Single(t => t.Token == token);
 
         if (!refreshToken.IsActive)
-            return (IsSuccess: false, model: null, ErrorMessage: "Inactive token!");
+            return new Response<AuthDto> { ErrorBody = ResponseErrors.Identity40025 };
 
         refreshToken.RevokedOn = DateTime.UtcNow;
 
@@ -167,7 +125,45 @@ public class AuthService(UserManager<AppUser> userManager, RoleManager<IdentityR
             RefreshTokenExpiration = newRefreshToken.ExpiresOn
         };
 
-        return (IsSuccess: true, model: authModel, ErrorMessage: null);
+        return new Response<AuthDto> { IsSuccess = true, Model = authModel };
+    }
+
+    public async Task<Response> ResetPasswordAsync(ResetPasswordDto model, string userId)
+    {
+        var user = await _userManager.FindByIdAsync(userId);
+
+        if (user is null)
+            return new Response { ErrorBody = ResponseErrors.NotFound40040 };
+
+        var changePasswordResult = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+
+        if (!changePasswordResult.Succeeded)
+            return new Response { ErrorBody = ResponseErrors.Identity40020(changePasswordResult) };
+
+        return new Response { IsSuccess = true };
+    }
+
+    public async Task<Response> UpdateProfileAsync(ProfileUpdateDto model, string userId)
+    {
+        var user = await _userManager.Users
+            .Include(u => u.Student)
+            .FirstOrDefaultAsync(u => u.Id == userId);
+
+        if (user is null)
+            return new Response { ErrorBody = ResponseErrors.NotFound40040 };
+
+        user.FullName = model.FullName;
+        user.Email = model.Email;
+        user.PhoneNumber = model.PhoneNumber;
+        user.Gender = model.Gender;
+        user.BirthDate = model.BirthDate;
+
+        var updateResult = await _userManager.UpdateAsync(user);
+
+        if (!updateResult.Succeeded)
+            return new Response { ErrorBody = ResponseErrors.Identity40022(updateResult) };
+
+        return new Response { IsSuccess = true };
     }
 
     private async Task<RefreshToken> GenerateRefreshTokenAsync(AppUser user)

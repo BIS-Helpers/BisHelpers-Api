@@ -11,4 +11,7 @@ public static class IdentityExtensions
 
         return error;
     }
+
+    public static IEnumerable<string> ToErrorList(this IdentityResult result) =>
+        result.Errors.Select(e => e.Description);
 }

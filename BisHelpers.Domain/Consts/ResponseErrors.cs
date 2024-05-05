@@ -1,117 +1,105 @@
-﻿using BisHelpers.Domain.Dtos;
+﻿using BisHelpers.Domain.Models;
 
 namespace BisHelpers.Domain.Consts;
 public static class ResponseErrors
 {
-    public static ErrorDto Validation(string details = "none")
+    /// <summary>
+    /// Email is already registered
+    /// </summary>
+    public static ErrorBody Email40010 = new()
     {
-        ErrorDto error = new()
+        Code = "40010",
+        Message = "Email is already registered!",
+    };
+
+    /// <summary>
+    /// create user error
+    /// </summary>
+    public static ErrorBody Identity40020(IdentityResult identityResult)
+    {
+        ErrorBody error = new()
         {
-            StatusCode = 400,
-            ErrorCode = "4001",
-
-            Message = "The request payload contains invalid or missing data.",
-            Details = details,
-
-            Suggestion = "Please review the request and the documentation https://bishelpers.apidog.io/ and ensure that all required fields are provided and conform to the expected data format and validation rules.",
+            Code = "40020",
+            Message = "Unable to create User",
+            Details = ToErrorList(identityResult),
         };
 
         return error;
     }
 
-    public static ErrorDto Register(string? details = null)
+    /// <summary>
+    /// add role to user error
+    /// </summary>
+    public static ErrorBody Identity40021(IdentityResult identityResult)
     {
-        ErrorDto error = new()
+        ErrorBody error = new()
         {
-            StatusCode = 400,
-            ErrorCode = "4002",
-
-            Message = "Unable to register the user",
-            Details = details ?? string.Empty,
-
-            Suggestion = "Please review the request and the documentation https://bishelpers.apidog.io/",
+            Code = "40021",
+            Message = "Unable to add role to user",
+            Details = ToErrorList(identityResult),
         };
 
         return error;
     }
 
-    public static ErrorDto ResetPassword(string? details = null)
+    /// <summary>
+    /// update user error
+    /// </summary>
+    public static ErrorBody Identity40022(IdentityResult identityResult)
     {
-        ErrorDto error = new()
+        ErrorBody error = new()
         {
-            StatusCode = 400,
-            ErrorCode = "4007",
-
-            Message = "Unable to reset user password",
-            Details = details ?? string.Empty,
-
-            Suggestion = "Please review the request and the documentation https://bishelpers.apidog.io/",
+            Code = "40022",
+            Message = "Unable to update user",
+            Details = ToErrorList(identityResult),
         };
 
         return error;
     }
 
-    public static ErrorDto Get(string? details = null)
+    public static ErrorBody Identity40026(IdentityResult identityResult)
     {
-        ErrorDto error = new()
+        ErrorBody error = new()
         {
-            StatusCode = 400,
-            ErrorCode = "4003",
-
-            Message = "Unable to get the the info",
-            Details = details ?? string.Empty,
-
-            Suggestion = "Please review the request and the documentation https://bishelpers.apidog.io/",
+            Code = "40026",
+            Message = "Unable to reset password",
+            Details = ToErrorList(identityResult),
         };
 
         return error;
     }
 
-    public static ErrorDto Put(string? details = null)
+    /// <summary>
+    /// email or password is incorrect!
+    /// </summary>
+    public static ErrorBody Identity40023 = new()
     {
-        ErrorDto error = new()
-        {
-            StatusCode = 400,
-            ErrorCode = "4006",
+        Code = "40023",
+        Message = "Email or Password is incorrect!"
+    };
 
-            Message = "Unable to update the entity",
-            Details = details ?? string.Empty,
-
-            Suggestion = "Please review the request and the documentation https://bishelpers.apidog.io/",
-        };
-
-        return error;
-    }
-
-    public static ErrorDto Login(string? details = null)
+    public static ErrorBody Identity40024 = new()
     {
-        ErrorDto error = new()
-        {
-            StatusCode = 400,
-            ErrorCode = "4004",
+        Code = "40024",
+        Message = "Invalid Token",
+    };
 
-            Message = "Unable to login to system",
-            Details = details ?? string.Empty,
-
-            Suggestion = "Please review the request and the documentation https://bishelpers.apidog.io/",
-        };
-
-        return error;
-    }
-
-    public static ErrorDto RefreshToken(string? details = null)
+    public static ErrorBody Identity40025 = new()
     {
-        ErrorDto error = new()
-        {
-            StatusCode = 400,
-            ErrorCode = "4005",
+        Code = "40024",
+        Message = "Inactive token!",
+    };
 
-            Message = "Unable to use refresh token",
-            Details = details ?? string.Empty,
 
-            Suggestion = "Please review the request and the documentation https://bishelpers.apidog.io/",
-        };
+    /// <summary>
+    /// user not found error
+    /// </summary>
+    public static ErrorBody NotFound40040 = new()
+    {
+        Code = "40040",
+        Message = "Can not found user",
+    };
 
-        return error;
-    }
+    private static IEnumerable<string> ToErrorList(IdentityResult result) =>
+        result.Errors.Select(e => e.Description);
 }

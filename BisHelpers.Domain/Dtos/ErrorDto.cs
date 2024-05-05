@@ -1,16 +1,13 @@
-﻿namespace BisHelpers.Domain.Dtos;
+﻿using BisHelpers.Domain.Models;
+using Microsoft.AspNetCore.Http;
 
-public class ErrorDto
+namespace BisHelpers.Domain.Dtos;
+
+public class ErrorDto(HttpContext context)
 {
     public int StatusCode { get; set; }
-
-    public string ErrorCode { get; set; } = string.Empty;
-
-    public string Message { get; set; } = string.Empty;
-
-    public string Details { get; set; } = string.Empty;
-
+    public IEnumerable<ErrorBody?> Errors { get; set; } = [];
+    public string RequestId { get; set; } = context.TraceIdentifier;
+    public string Path { get; set; } = context.Request.Path;
     public DateTime Timestamp { get; set; } = DateTime.UtcNow;
-
-    public string? Suggestion { get; set; } = string.Empty;
 }

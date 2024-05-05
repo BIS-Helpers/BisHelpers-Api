@@ -1,4 +1,6 @@
-﻿namespace BisHelpers.web.Extensions;
+﻿using BisHelpers.Domain.Models;
+
+namespace BisHelpers.web.Extensions;
 
 public static class ValidatorExtensions
 {
@@ -12,32 +14,46 @@ public static class ValidatorExtensions
     {
         if (NotNullOrEmpty)
             validator.NotEmpty()
-                .WithMessage(Errors.RequiredField);
+                .WithMessage(Errors.RequiredField)
+                .WithErrorCode("10");
 
         if (isEmail)
             validator.EmailAddress()
-                .WithMessage(Errors.InvalidEmailAddress);
+                .WithMessage(Errors.InvalidEmailAddress)
+                .WithErrorCode("20");
 
         if (MaximumLength is not null)
-            validator.MaximumLength(128)
-                .WithMessage(Errors.MaxLength);
+            validator.MaximumLength((int)MaximumLength)
+                .WithMessage(Errors.MaxLength)
+                .WithErrorCode("30");
 
         if (regexPattern is not null)
             validator.Matches(regexPattern.Value.pattern)
-                .WithMessage(regexPattern.Value.errorMessage);
+                .WithMessage(regexPattern.Value.errorMessage)
+                .WithErrorCode("40");
 
         if (equalsToOne is not null)
             validator.Must(x => equalsToOne.Select(w => w.ToUpper()).Contains(x.ToUpper()))
-                .WithMessage(Errors.EqualsToOne(equalsToOne));
+                .WithMessage(Errors.EqualsToOne(equalsToOne))
+                .WithErrorCode("50");
 
         return validator;
     }
 
-    public static string ToCustomString(this ValidationResult validationResult)
+    public static IEnumerable<ErrorBody?> ToErrorList(this ValidationResult validationResult)
     {
-        var validationDictionary = validationResult.ToDictionary();
-        var result = string.Join(", ", validationDictionary.Select(kvp => $"{kvp.Key}: {string.Join(", ", kvp.Value)}"));
+        var validationErrors = validationResult.Errors
+            .GroupBy(x => x.PropertyName)
+            .Select(g => new ErrorBody
+            {
+                Message = g.Key,
+                Details = g.Select(v => $"{v.ErrorMessage}, Error Code:{v.ErrorCode}"),
+                Code = string.Join(',', g.Select(v => v.ErrorCode).Distinct()),
+                Suggestion = "Please review the request and the documentation https://bishelpers.apidog.io/"
+            }).ToList();
 
-        return result;
+        return validationErrors;
     }
+
+
 }
