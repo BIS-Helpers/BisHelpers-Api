@@ -25,6 +25,7 @@ public class AuthService(UserManager<AppUser> userManager, IUnitOfWork unitOfWor
             return new Response { ErrorBody = ResponseErrors.Identity40021(addToRoleResult) };
 
         newUser.Student = model.MapToStudent();
+        newUser.Student.CreatedById = newUser.Id;
 
         var updateUserResult = await _userManager.UpdateAsync(newUser);
         if (!updateUserResult.Succeeded)

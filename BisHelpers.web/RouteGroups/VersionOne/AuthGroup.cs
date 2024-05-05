@@ -1,4 +1,4 @@
-﻿namespace BisHelpers.web.RouteGroups;
+﻿namespace BisHelpers.web.RouteGroups.VersionOne;
 
 public static class AuthGroup
 {
@@ -109,7 +109,7 @@ public static class AuthGroup
         .OkRouteConfiguration()
         .ErrorRouteConfiguration();
 
-        builder.MapPut("/Profile", [Authorize] async ([FromBody] ProfileUpdateDto dto, IAuthService authService, IValidator<ProfileUpdateDto> validator, ClaimsPrincipal user, HttpContext context) =>
+        builder.MapPut("/Profile", [Authorize] async ([FromBody] ProfileUpdateDto dto, IAuthService authService, IValidator<ProfileUpdateDto> validator, HttpContext context) =>
         {
             var validationResult = validator.Validate(dto);
 
@@ -119,7 +119,8 @@ public static class AuthGroup
                     StatusCode = 400,
                     Errors = validationResult.ToErrorList(),
                 });
-            var updateProfileResult = await authService.UpdateProfileAsync(dto, user.GetUserId());
+
+            var updateProfileResult = await authService.UpdateProfileAsync(dto, context.User.GetUserId());
 
             if (!updateProfileResult.IsSuccess)
                 return Results.BadRequest(new ErrorDto(context)
@@ -127,13 +128,14 @@ public static class AuthGroup
                     Errors = [updateProfileResult.ErrorBody],
                     StatusCode = 400,
                 });
+
             return Results.Ok("User Profile Updated Successfully");
         })
         .EndPointConfigurations("Update User Profile")
         .OkRouteConfiguration()
         .ErrorRouteConfiguration();
 
-        builder.MapGet("/Profile", [Authorize] async (IAuthService authService, ClaimsPrincipal user, HttpContext context) =>
+        builder.MapGet("/Profile", [Authorize] async (IAuthService authService, HttpContext context) =>
         {
             var resultResponse = await authService.GetProfileAsync(context.User.GetUserId());
 

@@ -90,7 +90,6 @@ public static class ResponseErrors
         Message = "Inactive token!",
     };
 
-
     /// <summary>
     /// user not found error
     /// </summary>
