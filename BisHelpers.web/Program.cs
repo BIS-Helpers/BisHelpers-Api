@@ -1,11 +1,8 @@
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
-string? connectionString;
 
-if (builder.Environment.IsDevelopment())
-    connectionString = configuration.GetConnectionString("DefaultConnection");
-else
-    connectionString = configuration.GetConnectionString("ServerConnection");
+var connectionString = configuration.GetConnectionString(
+    builder.Environment.IsDevelopment() ? "DefaultConnection" : "ServerConnection");
 
 // Add services to the container.
 builder.Services
@@ -18,26 +15,24 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwagger().UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint($"/swagger/{Versions.Version1}/swagger.json", $"BisHelpers {Versions.Version1}");
+        options.SwaggerEndpoint($"/swagger/{Versions.Version2}/swagger.json", $"BisHelpers {Versions.Version2}");
+    });
 }
 
-app.UseSwagger();
-app.UseSwaggerUI();
-
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
 
-using var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
-await DefaultRoles.SeedAsync(scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>());
-await DefaultUsers.SeedAdminUserAsync(scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>());
+await app.SeedUserAndRoles(app.Services);
 
 app.MapControllers();
 
 #region MapGroups
-app.MapGroup("/v1").VersionOneGroup();
+app.MapGroup($"/{Versions.Version1}").VersionOneGroup().WithGroupName(Versions.Version1);
+app.MapGroup($"/{Versions.Version1}").VersionTwoGroup().WithGroupName(Versions.Version2);
 #endregion
 
 app.Run();

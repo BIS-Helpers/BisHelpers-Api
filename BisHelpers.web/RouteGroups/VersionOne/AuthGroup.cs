@@ -2,7 +2,7 @@
 
 public static class AuthGroup
 {
-    public static RouteGroupBuilder GroupAuth(this RouteGroupBuilder builder)
+    public static RouteGroupBuilder GroupAuthVersionOne(this RouteGroupBuilder builder)
     {
         builder.MapPost("/register", async ([FromBody] RegisterDto dto, IValidator<RegisterDto> validator, IAuthService authService, HttpContext context) =>
         {
@@ -26,9 +26,9 @@ public static class AuthGroup
 
             return Results.Created();
         })
-        .EndPointConfigurations("Register New User")
-        .CreatedRouteConfiguration()
-        .ErrorRouteConfiguration();
+        .EndPointConfigurations(Name: "Register New User", version: Versions.Version1)
+        .CreatedResponseConfiguration()
+        .ErrorResponseConfiguration(StatusCodes.Status400BadRequest);
 
         builder.MapPost("/login", async ([FromBody] LoginDto dto, IValidator<LoginDto> validator, IAuthService authService, HttpContext context) =>
         {
@@ -56,9 +56,9 @@ public static class AuthGroup
 
             return Results.Ok(loginResult.Model);
         })
-        .EndPointConfigurations("User Login")
-        .OkRouteConfiguration<AuthDto>()
-        .ErrorRouteConfiguration();
+        .EndPointConfigurations("User Login", Versions.Version1)
+        .OkResponseConfiguration<AuthDto>()
+        .ErrorResponseConfiguration(StatusCodes.Status400BadRequest);
 
         builder.MapPost("/refreshToken", async (IAuthService authService, HttpContext context) =>
         {
@@ -79,9 +79,9 @@ public static class AuthGroup
 
             return Results.Ok(refreshTokenResult.Model);
         })
-        .EndPointConfigurations("Generate Refresh Token")
-        .OkRouteConfiguration<AuthDto>()
-        .ErrorRouteConfiguration();
+        .EndPointConfigurations("Use Refresh Token", Versions.Version1)
+        .OkResponseConfiguration<AuthDto>()
+        .ErrorResponseConfiguration(StatusCodes.Status400BadRequest);
 
         builder.MapPost("/resetPassword", [Authorize] async ([FromBody] ResetPasswordDto dto, IAuthService authService, IValidator<ResetPasswordDto> validator, HttpContext context) =>
         {
@@ -105,9 +105,9 @@ public static class AuthGroup
 
             return Results.Ok("Password Reset Successfully");
         })
-        .EndPointConfigurations("Reset User Password")
-        .OkRouteConfiguration()
-        .ErrorRouteConfiguration();
+        .EndPointConfigurations("Reset User Password", Versions.Version1)
+        .OkResponseConfiguration()
+        .ErrorResponseConfiguration(StatusCodes.Status400BadRequest);
 
         builder.MapPut("/Profile", [Authorize] async ([FromBody] ProfileUpdateDto dto, IAuthService authService, IValidator<ProfileUpdateDto> validator, HttpContext context) =>
         {
@@ -131,9 +131,9 @@ public static class AuthGroup
 
             return Results.Ok("User Profile Updated Successfully");
         })
-        .EndPointConfigurations("Update User Profile")
-        .OkRouteConfiguration()
-        .ErrorRouteConfiguration();
+        .EndPointConfigurations("Update User Profile", Versions.Version1)
+        .OkResponseConfiguration()
+        .ErrorResponseConfiguration(StatusCodes.Status400BadRequest);
 
         builder.MapGet("/Profile", [Authorize] async (IAuthService authService, HttpContext context) =>
         {
@@ -144,9 +144,9 @@ public static class AuthGroup
 
             return Results.Ok(resultResponse.Model);
         })
-        .EndPointConfigurations("Get User Profile")
-        .OkRouteConfiguration<ProfileDto>()
-        .ErrorRouteConfiguration();
+        .EndPointConfigurations("Get User Profile", Versions.Version1)
+        .OkResponseConfiguration<ProfileDto>()
+        .ErrorResponseConfiguration(StatusCodes.Status404NotFound, withBody: false);
 
         return builder;
     }

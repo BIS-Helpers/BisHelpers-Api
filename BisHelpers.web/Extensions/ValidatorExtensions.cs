@@ -47,7 +47,7 @@ public static class ValidatorExtensions
             .Select(g => new ErrorBody
             {
                 Message = g.Key,
-                Details = g.Select(v => $"{v.ErrorMessage}, Error Code:{v.ErrorCode}"),
+                Details = g.Select(v => $"{v.ErrorMessage}"),
                 Code = string.Join(',', g.Select(v => v.ErrorCode).Distinct()),
                 Suggestion = "Please review the request and the documentation https://bishelpers.apidog.io/"
             }).ToList();

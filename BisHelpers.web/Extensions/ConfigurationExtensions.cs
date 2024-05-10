@@ -6,6 +6,9 @@ public static class ConfigurationExtensions
     {
         service.AddSwaggerGen(setupAction =>
         {
+            setupAction.SwaggerDoc(Versions.Version1, new() { Title = $"BisHelpers {Versions.Version1}", Version = Versions.Version1 });
+            setupAction.SwaggerDoc(Versions.Version2, new() { Title = $"BisHelpers {Versions.Version2}", Version = Versions.Version2 });
+
             setupAction.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
             {
                 Type = SecuritySchemeType.Http,

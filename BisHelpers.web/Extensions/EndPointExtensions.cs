@@ -2,22 +2,28 @@
 
 public static class EndPointExtensions
 {
-    public static RouteHandlerBuilder EndPointConfigurations(this RouteHandlerBuilder route, string Name)
+    public static RouteHandlerBuilder EndPointConfigurations(this RouteHandlerBuilder route,
+        string Name,
+        string version,
+        string? description = null)
     {
-        route.WithName(Name);
+        route.WithName(string.Join(' ', Name, version));
+
+        if (description is not null)
+            route.WithDescription(description);
 
         return route;
     }
 
-    public static RouteHandlerBuilder OkRouteConfiguration(this RouteHandlerBuilder route) =>
-        route.Produces(200);
+    public static RouteHandlerBuilder OkResponseConfiguration(this RouteHandlerBuilder route) =>
+        route.Produces(StatusCodes.Status200OK);
+    public static RouteHandlerBuilder OkResponseConfiguration<T>(this RouteHandlerBuilder route) =>
+        route.Produces<T>(StatusCodes.Status200OK);
 
-    public static RouteHandlerBuilder CreatedRouteConfiguration(this RouteHandlerBuilder route) =>
-    route.Produces(201);
+    public static RouteHandlerBuilder CreatedResponseConfiguration(this RouteHandlerBuilder route) =>
+        route.Produces(StatusCodes.Status201Created);
 
-    public static RouteHandlerBuilder OkRouteConfiguration<T>(this RouteHandlerBuilder route) =>
-        route.Produces<T>(200);
+    public static RouteHandlerBuilder ErrorResponseConfiguration(this RouteHandlerBuilder route, int ErrorDtoStatusCode, bool withBody = true) =>
+        withBody ? route.Produces<ErrorDto>(ErrorDtoStatusCode) : route.Produces(ErrorDtoStatusCode);
 
-    public static RouteHandlerBuilder ErrorRouteConfiguration(this RouteHandlerBuilder route, int ErrorDtoStatusCode = 400) =>
-        route.Produces<ErrorDto>(ErrorDtoStatusCode);
 }
