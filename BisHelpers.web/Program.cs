@@ -32,7 +32,7 @@ app.MapControllers();
 
 #region MapGroups
 app.MapGroup($"/{Versions.Version1}").VersionOneGroup().WithGroupName(Versions.Version1);
-app.MapGroup($"/{Versions.Version1}").VersionTwoGroup().WithGroupName(Versions.Version2);
+app.MapGroup($"/{Versions.Version2}").VersionTwoGroup().WithGroupName(Versions.Version2);
 #endregion
 
 app.Run();
