@@ -12,6 +12,24 @@ public static class ConfigureServices
         services.AddIdentityCustom();
         services.AddAuthenticationCustom(configuration);
         services.AddAuthorization();
+        services.AddCors(options =>
+        {
+            options.AddPolicy("Restricted", options =>
+            {
+                options
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .WithOrigins("http://localhost:4200");
+            });
+
+            options.AddPolicy("AllowAll", options =>
+            {
+                options
+                    .AllowAnyHeader()
+                    .AllowAnyMethod()
+                    .AllowAnyOrigin();
+            });
+        });
 
         services.Configure<JWT>(configuration.GetSection("Authentication"));
         services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, ApplicationUserClaimsPrincipalFactory>();
