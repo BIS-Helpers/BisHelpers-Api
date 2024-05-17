@@ -72,6 +72,10 @@ public class AuthService(UserManager<AppUser> userManager, IUnitOfWork unitOfWor
 
         var authModel = new AuthDto
         {
+            FullName = user.FullName,
+            Email = user.Email ?? string.Empty,
+            Gender = user.Gender,
+            Roles = userRoles,
             Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
             ExpiresOn = jwtSecurityToken.ValidTo,
         };
