@@ -1,4 +1,4 @@
-﻿namespace BisHelpers.Domain.Dtos;
+﻿namespace BisHelpers.Domain.Dtos.Profile;
 public class ProfileUpdateDto
 {
     public string FullName { get; set; } = null!;

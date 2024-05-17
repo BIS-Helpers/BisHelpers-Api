@@ -1,4 +1,6 @@
-﻿namespace BisHelpers.Application.Services.Auth;
+﻿using BisHelpers.Domain.Dtos.Profile;
+
+namespace BisHelpers.Application.Services.Auth;
 
 public class AuthService(UserManager<AppUser> userManager, IUnitOfWork unitOfWork, IOptions<JWT> jwt) : IAuthService
 {

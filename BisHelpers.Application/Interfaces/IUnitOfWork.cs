@@ -5,6 +5,7 @@ namespace BisHelpers.Application.Interfaces;
 public interface IUnitOfWork
 {
     public IBaseRepository<Student> Students { get; }
+    public IBaseRepository<Professor> Professors { get; }
 
     public Task BeginTransaction();
 

@@ -6,7 +6,8 @@ public static class GroupVersionOne
 {
     public static RouteGroupBuilder VersionOneGroup(this RouteGroupBuilder builder)
     {
-        builder.MapGroup("/Auth").GroupAuthVersionOne().WithTags("Authentication");
+        builder.MapGroup("/auth").GroupAuthVersionOne().WithTags("Authentication");
+        builder.MapGroup("/professor").GroupProfessorVersionOne().WithTags("Professor");
 
         return builder;
     }

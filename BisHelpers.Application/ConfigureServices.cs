@@ -5,6 +5,7 @@ public static class ConfigureServices
     {
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IStudentService, StudentService>();
+        services.AddScoped<IProfessorService, ProfessorService>();
 
         return services;
     }

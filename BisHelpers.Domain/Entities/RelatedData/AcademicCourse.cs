@@ -13,4 +13,6 @@ public class AcademicCourse
     public string Code { get; set; } = null!;
 
     public int CreditHours { get; set; }
+
+    public ICollection<ProfessorAcademicCourse> Professors { get; set; } = [];
 }

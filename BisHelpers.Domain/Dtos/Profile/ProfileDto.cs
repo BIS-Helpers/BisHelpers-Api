@@ -1,4 +1,4 @@
-﻿namespace BisHelpers.Domain.Dtos;
+﻿namespace BisHelpers.Domain.Dtos.Profile;
 
 public class ProfileDto
 {

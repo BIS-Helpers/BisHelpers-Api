@@ -1,6 +1,4 @@
-﻿using BisHelpers.Domain.Consts;
-
-namespace BisHelpers.Domain.Dtos;
+﻿namespace BisHelpers.Domain.Dtos;
 
 public class RegisterDto
 {

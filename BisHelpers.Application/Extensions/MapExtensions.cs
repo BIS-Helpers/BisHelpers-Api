@@ -40,4 +40,14 @@ public static class MapExtensions
 
         return profile;
     }
+
+    public static Professor MapToProfessor(this ProfessorCreateDto dto)
+    {
+        var professor = new Professor
+        {
+            FullName = dto.FullName,
+        };
+
+        return professor;
+    }
 }
