@@ -10,7 +10,7 @@ public class ProfileDto
 
     public string Gender { get; set; } = null!;
 
-    public DateTime BirthDate { get; set; }
+    public DateOnly BirthDate { get; set; }
 
     public string? Level { get; set; }
 

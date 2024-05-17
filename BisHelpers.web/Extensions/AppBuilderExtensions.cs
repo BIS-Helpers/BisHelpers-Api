@@ -2,9 +2,9 @@
 
 public static class AppBuilderExtensions
 {
-    public static async Task<IApplicationBuilder> SeedUserAndRoles(this IApplicationBuilder app, IServiceProvider service)
+    public static async Task<IApplicationBuilder> SeedUserAndRoles(this WebApplication app)
     {
-        using var scope = service.GetRequiredService<IServiceScopeFactory>().CreateScope();
+        using var scope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope();
         await DefaultRoles.SeedAsync(scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>());
         await DefaultUsers.SeedAdminUserAsync(scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>());
 

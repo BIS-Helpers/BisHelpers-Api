@@ -10,7 +10,7 @@ public static class DefaultUsers
             Email = "admin@bishelpers.com",
             FullName = "Bis Helpers Admin",
             EmailConfirmed = true,
-            BirthDate = DateTime.UtcNow,
+            BirthDate = DateOnly.FromDateTime(DateTime.UtcNow),
             Gender = "male"
         };
 

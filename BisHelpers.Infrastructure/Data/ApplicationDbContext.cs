@@ -4,6 +4,12 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 {
     public DbSet<RefreshToken> RefreshTokens { get; set; }
     public DbSet<Student> Students { get; set; }
+    public DbSet<AcademicRegistration> AcademicRegistrations { get; set; }
+    public DbSet<AcademicSemester> AcademicSemesters { get; set; }
+    public DbSet<AcademicLecture> AcademicLectures { get; set; }
+    public DbSet<AcademicCourse> AcademicCourses { get; set; }
+    public DbSet<Professor> Professors { get; set; }
+    public DbSet<ProfessorAcademicCourse> ProfessorsAcademicCourses { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

@@ -29,10 +29,10 @@ public class RegisterDto
     public string PhoneNumber { get; set; } = null!;
 
     [Required]
-    public DateTime BirthDate { get; set; }
+    public DateOnly BirthDate { get; set; }
 
     [Required]
-    public DateTime DateOfJoin { get; set; }
+    public DateOnly DateOfJoin { get; set; }
 
     [Required]
     [RegularExpression(RegexPatterns.MaleOrFemaleOnly)]

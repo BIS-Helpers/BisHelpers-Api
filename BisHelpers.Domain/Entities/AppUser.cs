@@ -9,7 +9,7 @@ public class AppUser : IdentityUser
     [StringLength(10)]
     public string Gender { get; set; } = null!;
 
-    public DateTime BirthDate { get; set; }
+    public DateOnly BirthDate { get; set; }
 
     public bool IsDeleted { get; set; }
 

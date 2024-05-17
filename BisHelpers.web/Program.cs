@@ -26,7 +26,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-await app.SeedUserAndRoles(app.Services);
+await app.SeedUserAndRoles();
 
 app.MapControllers();
 

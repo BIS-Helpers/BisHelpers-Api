@@ -9,5 +9,5 @@ public class ProfileUpdateDto
 
     public string Gender { get; set; } = null!;
 
-    public DateTime BirthDate { get; set; }
+    public DateOnly BirthDate { get; set; }
 }

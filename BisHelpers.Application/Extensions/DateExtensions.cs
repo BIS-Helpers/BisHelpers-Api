@@ -1,9 +1,9 @@
 ﻿namespace BisHelpers.Application.Extensions;
 public static class DateExtensions
 {
-    public static string? ToCollegeLevel(this DateTime dateOfJoin)
+    public static string? ToCollegeLevel(this DateOnly dateOfJoin)
     {
-        var currentDate = DateTime.UtcNow;
+        var currentDate = DateOnly.FromDateTime(DateTime.UtcNow.Date);
 
         if (currentDate < dateOfJoin)
             return null;

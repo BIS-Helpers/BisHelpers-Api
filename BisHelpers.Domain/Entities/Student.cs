@@ -1,5 +1,6 @@
 ﻿namespace BisHelpers.Domain.Entities;
 
+[Index(nameof(CollegeId), IsUnique = true)]
 public class Student : BaseEntity
 {
     #region Prperties
@@ -8,7 +9,7 @@ public class Student : BaseEntity
     [StringLength(9)]
     public string CollegeId { get; set; } = null!;
 
-    public DateTime DateOfJoin { get; set; }
+    public DateOnly DateOfJoin { get; set; }
     #endregion
 
     #region Relations
