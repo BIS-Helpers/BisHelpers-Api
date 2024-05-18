@@ -15,6 +15,9 @@ public static class EndPointExtensions
         return route;
     }
 
+    public static RouteHandlerBuilder UnauthorizedResponseConfiguration(this RouteHandlerBuilder route) =>
+        route.Produces(StatusCodes.Status401Unauthorized);
+
     public static RouteHandlerBuilder OkResponseConfiguration(this RouteHandlerBuilder route) =>
         route.Produces(StatusCodes.Status200OK);
     public static RouteHandlerBuilder OkResponseConfiguration<T>(this RouteHandlerBuilder route) =>
@@ -22,6 +25,9 @@ public static class EndPointExtensions
 
     public static RouteHandlerBuilder CreatedResponseConfiguration(this RouteHandlerBuilder route) =>
         route.Produces(StatusCodes.Status201Created);
+
+    public static RouteHandlerBuilder CreatedResponseConfiguration<T>(this RouteHandlerBuilder route) =>
+        route.Produces<T>(StatusCodes.Status201Created);
 
     public static RouteHandlerBuilder ErrorResponseConfiguration(this RouteHandlerBuilder route, int ErrorDtoStatusCode, bool withBody = true) =>
         withBody ? route.Produces<ErrorDto>(ErrorDtoStatusCode) : route.Produces(ErrorDtoStatusCode);

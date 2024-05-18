@@ -15,7 +15,7 @@ public static class ProfessorGroup
                     Errors = validationResult.ToErrorList(),
                 });
 
-            var AddResponse = await professorService.Add(dto, context.User.GetUserId());
+            var AddResponse = await professorService.AddAsync(dto, context.User.GetUserId());
 
             if (!AddResponse.IsSuccess)
                 return Results.BadRequest(new ErrorDto(context)
@@ -24,11 +24,35 @@ public static class ProfessorGroup
                     StatusCode = 400,
                 });
 
-            return Results.Created();
+            return Results.CreatedAtRoute(string.Join(' ', "Get Professor By Id", Versions.Version1), new { AddResponse.Model!.Id }, AddResponse.Model.MapToDto());
         })
         .EndPointConfigurations(Name: "Add Professor", version: Versions.Version1)
-        .CreatedResponseConfiguration()
-        .ErrorResponseConfiguration(StatusCodes.Status400BadRequest);
+        .CreatedResponseConfiguration<ProfessorDto>()
+        .ErrorResponseConfiguration(StatusCodes.Status400BadRequest)
+        .UnauthorizedResponseConfiguration();
+
+        builder.MapGet("/", [Authorize(Roles = AppRoles.Admin)] async (IProfessorService professorService, HttpContext context) =>
+        {
+            var professors = await professorService.GetAllAsync();
+            return Results.Ok(professors);
+        })
+        .EndPointConfigurations(Name: "Get All Professors", version: Versions.Version1)
+        .OkResponseConfiguration<IEnumerable<ProfessorDto>>()
+        .UnauthorizedResponseConfiguration();
+
+        builder.MapGet("/{id}", [Authorize(Roles = AppRoles.Admin)] async (int id, IProfessorService professorService, HttpContext context) =>
+        {
+            var professor = await professorService.GetById(id);
+
+            if (professor is null)
+                return Results.NotFound();
+
+            return Results.Ok(professor);
+        })
+        .EndPointConfigurations(Name: "Get Professor By Id", version: Versions.Version1)
+        .OkResponseConfiguration<ProfessorDto>()
+        .ErrorResponseConfiguration(StatusCodes.Status404NotFound, withBody: false)
+        .UnauthorizedResponseConfiguration();
 
         return builder;
     }

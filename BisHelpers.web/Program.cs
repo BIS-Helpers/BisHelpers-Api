@@ -20,8 +20,14 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger().UseSwaggerUI(options =>
     {
-        options.SwaggerEndpoint($"/swagger/{Versions.Version1}/swagger.json", $"BisHelpers {Versions.Version1}");
-        options.SwaggerEndpoint($"/swagger/{Versions.Version2}/swagger.json", $"BisHelpers {Versions.Version2}");
+        options.SwaggerEndpoint(
+            url: $"/swagger/{Versions.Version1}/swagger.json",
+            name: $"BisHelpers {Versions.Version1}"
+            );
+        options.SwaggerEndpoint(
+            url: $"/swagger/{Versions.Version2}/swagger.json",
+            name: $"BisHelpers {Versions.Version2}"
+            );
     });
 }
 
@@ -34,8 +40,10 @@ await app.SeedUserAndRoles();
 app.MapControllers();
 
 #region MapGroups
-app.MapGroup($"/{Versions.Version1}").VersionOneGroup().WithGroupName(Versions.Version1);
-app.MapGroup($"/{Versions.Version2}").VersionTwoGroup().WithGroupName(Versions.Version2);
+app.MapGroup($"/{Versions.Version1}")
+    .VersionOneGroup().WithGroupName(Versions.Version1);
+app.MapGroup($"/{Versions.Version2}")
+    .VersionTwoGroup().WithGroupName(Versions.Version2);
 #endregion
 
 app.Run();

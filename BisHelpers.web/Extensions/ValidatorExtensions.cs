@@ -9,18 +9,12 @@ public static class ValidatorExtensions
         bool NotNullOrEmpty = true,
         int? MaximumLength = null,
         (string pattern, string errorMessage)? regexPattern = null,
-        List<string>? equalsToOne = null,
-        bool isEmail = false)
+        List<string>? equalsToOne = null)
     {
         if (NotNullOrEmpty)
             validator.NotEmpty()
                 .WithMessage(Errors.RequiredField)
                 .WithErrorCode("10");
-
-        if (isEmail)
-            validator.EmailAddress()
-                .WithMessage(Errors.InvalidEmailAddress)
-                .WithErrorCode("20");
 
         if (MaximumLength is not null)
             validator.MaximumLength((int)MaximumLength)
@@ -40,6 +34,11 @@ public static class ValidatorExtensions
         return validator;
     }
 
+    public static IRuleBuilderOptions<T, string> EmailCustomValidator<T>(this IRuleBuilder<T, string> validator) =>
+        validator.EmailAddress()
+            .WithMessage(Errors.InvalidEmailAddress)
+            .WithErrorCode("20");
+
     public static IEnumerable<ErrorBody?> ToErrorList(this ValidationResult validationResult)
     {
         var validationErrors = validationResult.Errors
@@ -54,6 +53,4 @@ public static class ValidatorExtensions
 
         return validationErrors;
     }
-
-
 }

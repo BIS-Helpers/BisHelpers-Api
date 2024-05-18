@@ -107,7 +107,8 @@ public static class AuthGroup
         })
         .EndPointConfigurations("Reset User Password", Versions.Version1)
         .OkResponseConfiguration()
-        .ErrorResponseConfiguration(StatusCodes.Status400BadRequest);
+        .ErrorResponseConfiguration(StatusCodes.Status400BadRequest)
+        .UnauthorizedResponseConfiguration();
 
         builder.MapPut("/Profile", [Authorize] async ([FromBody] ProfileUpdateDto dto, IAuthService authService, IValidator<ProfileUpdateDto> validator, HttpContext context) =>
         {
@@ -133,7 +134,8 @@ public static class AuthGroup
         })
         .EndPointConfigurations("Update User Profile", Versions.Version1)
         .OkResponseConfiguration()
-        .ErrorResponseConfiguration(StatusCodes.Status400BadRequest);
+        .ErrorResponseConfiguration(StatusCodes.Status400BadRequest)
+        .UnauthorizedResponseConfiguration();
 
         builder.MapGet("/Profile", [Authorize] async (IAuthService authService, HttpContext context) =>
         {
@@ -146,7 +148,8 @@ public static class AuthGroup
         })
         .EndPointConfigurations("Get User Profile", Versions.Version1)
         .OkResponseConfiguration<ProfileDto>()
-        .ErrorResponseConfiguration(StatusCodes.Status404NotFound, withBody: false);
+        .ErrorResponseConfiguration(StatusCodes.Status404NotFound, withBody: false)
+        .UnauthorizedResponseConfiguration();
 
         return builder;
     }

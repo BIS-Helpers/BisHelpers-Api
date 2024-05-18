@@ -5,7 +5,12 @@ public class RegisterValidator : AbstractValidator<RegisterDto>
     public RegisterValidator()
     {
         RuleFor(r => r.Email)
-            .StringCustomValidator(MaximumLength: 128, isEmail: true);
+            .StringCustomValidator(MaximumLength: 128);
+
+        RuleFor(r => r.Email)
+            .EmailCustomValidator()
+            .Unless(x => string.IsNullOrEmpty(x.Email));
+
         RuleFor(r => r.FullName)
             .StringCustomValidator(MaximumLength: 200, regexPattern: (RegexPatterns.CharactersOnly_Eng, Errors.OnlyEnglishLetters));
         RuleFor(r => r.Password)
