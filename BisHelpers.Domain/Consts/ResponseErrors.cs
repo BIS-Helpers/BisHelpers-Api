@@ -75,7 +75,8 @@ public static class ResponseErrors
     public static ErrorBody Identity40023 = new()
     {
         Code = "40023",
-        Message = "Email or Password is incorrect!"
+        Message = "Login Error",
+        Details = ["Email or Password is incorrect!"]
     };
 
     public static ErrorBody Identity40024 = new()

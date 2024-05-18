@@ -1,6 +1,4 @@
-﻿using BisHelpers.Domain.Dtos.Profile;
-
-namespace BisHelpers.Application.Services.Auth;
+﻿namespace BisHelpers.Application.Services.Auth;
 
 public interface IAuthService
 {

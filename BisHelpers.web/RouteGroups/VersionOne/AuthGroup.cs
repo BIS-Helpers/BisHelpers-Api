@@ -60,6 +60,11 @@ public static class AuthGroup
         .OkResponseConfiguration<AuthDto>()
         .ErrorResponseConfiguration(StatusCodes.Status400BadRequest);
 
+        builder.MapGet("/validateToken", [Authorize] () => Results.Ok("Authorized"))
+        .EndPointConfigurations("Validate Token", Versions.Version1)
+        .OkResponseConfiguration()
+        .UnauthorizedResponseConfiguration();
+
         builder.MapPost("/refreshToken", async (IAuthService authService, HttpContext context) =>
         {
             var refreshToken = context.Request.Cookies["refreshToken"] ?? string.Empty;
