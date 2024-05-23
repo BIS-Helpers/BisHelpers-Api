@@ -13,7 +13,7 @@ builder.Services
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-
+app.UseExceptionHandler(options => { });
 app.UseCors("AllowAll");
 
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())

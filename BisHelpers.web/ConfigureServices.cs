@@ -1,6 +1,4 @@
-﻿using BisHelpers.Domain.Models;
-
-namespace BisHelpers.web;
+﻿namespace BisHelpers.web;
 
 public static class ConfigureServices
 {
@@ -12,6 +10,7 @@ public static class ConfigureServices
         services.AddIdentityCustom();
         services.AddAuthenticationCustom(configuration);
         services.AddAuthorization();
+        services.AddExceptionHandler<DefaultExceptionHandler>();
         services.AddCors(options =>
         {
             options.AddPolicy("Restricted", options =>
