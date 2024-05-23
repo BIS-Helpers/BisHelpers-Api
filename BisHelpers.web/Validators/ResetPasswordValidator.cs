@@ -8,6 +8,9 @@ public class ResetPasswordValidator : AbstractValidator<ResetPasswordDto>
             .StringCustomValidator();
 
         RuleFor(r => r.NewPassword)
-            .StringCustomValidator(MaximumLength: 256, regexPattern: (RegexPatterns.Password, Errors.WeakPassword));
+            .StringCustomValidator(MaximumLength: 256);
+        RuleFor(r => r.NewPassword)
+            .RegexCustomValidator(RegexPatterns.Password, Errors.WeakPassword)
+            .Unless(x => string.IsNullOrEmpty(x.NewPassword));
     }
 }
