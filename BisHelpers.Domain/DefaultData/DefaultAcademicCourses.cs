@@ -1,4 +1,4 @@
-﻿namespace BisHelpers.web.Seeds;
+﻿namespace BisHelpers.Domain.DefaultData;
 
 public static class DefaultAcademicCourses
 {

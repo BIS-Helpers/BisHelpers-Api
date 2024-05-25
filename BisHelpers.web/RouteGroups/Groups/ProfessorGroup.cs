@@ -1,4 +1,4 @@
-﻿namespace BisHelpers.web.RouteGroups.VersionOne;
+﻿namespace BisHelpers.web.RouteGroups.Groups;
 
 public static class ProfessorGroup
 {

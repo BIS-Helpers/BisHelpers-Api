@@ -1,4 +1,4 @@
-﻿using BisHelpers.web.Seeds;
+﻿using BisHelpers.Domain.DefaultData;
 
 namespace BisHelpers.Infrastructure.Data;
 
