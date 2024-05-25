@@ -18,5 +18,7 @@ public class ProfessorAcademicCourse : BaseEntity
 
     public Professor? Professor { get; set; }
     public int ProfessorId { get; set; }
+
+    public ICollection<AcademicLecture> AcademicLectures { get; set; } = [];
     #endregion
 }

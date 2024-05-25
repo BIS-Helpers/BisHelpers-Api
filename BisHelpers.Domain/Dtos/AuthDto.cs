@@ -8,6 +8,8 @@ public class AuthDto
 
     public string Email { get; set; } = null!;
 
+    public string AcademicYear { get; set; } = null!;
+
     public IEnumerable<string> Roles { get; set; } = [];
 
     public string Token { get; set; } = null!;

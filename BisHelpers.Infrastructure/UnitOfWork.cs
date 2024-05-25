@@ -7,6 +7,8 @@ public class UnitOfWork(ApplicationDbContext context) : IUnitOfWork
 
     public IBaseRepository<Student> Students => new BaseRepository<Student>(_context);
     public IBaseRepository<Professor> Professors => new BaseRepository<Professor>(_context);
+    public IBaseRepository<AcademicCourse> AcademicCourses => new BaseRepository<AcademicCourse>(_context);
+    public IBaseRepository<AcademicLecture> AcademicLectures => new BaseRepository<AcademicLecture>(_context);
 
     public async Task BeginTransaction() =>
         transaction = await _context.Database.BeginTransactionAsync();

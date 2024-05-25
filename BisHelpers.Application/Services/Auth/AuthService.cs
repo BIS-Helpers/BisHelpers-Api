@@ -78,6 +78,7 @@ public class AuthService(UserManager<AppUser> userManager, IUnitOfWork unitOfWor
             Roles = userRoles,
             Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
             ExpiresOn = jwtSecurityToken.ValidTo,
+            AcademicYear = DateTime.UtcNow.Year.GetCurrentAcademicYear(),
         };
 
         var isRefreshTokenActive = user.RefreshTokens!.Any(t => t.IsActive);

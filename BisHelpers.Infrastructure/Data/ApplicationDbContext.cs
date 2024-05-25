@@ -1,4 +1,6 @@
-﻿namespace BisHelpers.Infrastructure.Data;
+﻿using BisHelpers.web.Seeds;
+
+namespace BisHelpers.Infrastructure.Data;
 
 public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<AppUser>(options)
 {
@@ -58,7 +60,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         #endregion
 
         #region DataSeeding
-
+        builder.Entity<AcademicCourse>().HasData(DefaultAcademicCourses.Data);
         #endregion
 
         base.OnModelCreating(builder);

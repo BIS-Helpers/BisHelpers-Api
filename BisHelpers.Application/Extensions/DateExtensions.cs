@@ -18,4 +18,8 @@ public static class DateExtensions
 
         return $"Level {yearsDiff}";
     }
+
+    public static string GetCurrentAcademicYear(this int year) =>
+        string.Join('/', year.ToString(), (year + 1).ToString());
+
 }
