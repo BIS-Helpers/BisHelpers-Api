@@ -12,4 +12,6 @@ public static class RegexPatterns
     public const string MobileNumber = "^01[0,1,2,5]{1}[0-9]{8}$";
     public const string NationalId = "^[2,3]{1}[0-9]{13}$";
     public const string MaleOrFemaleOnly = "^(male|female)$";
+    public const string NumbersOnly = @"^\d+$";
+    public const string WeekDaysOnly = @"^(Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday)$";
 }

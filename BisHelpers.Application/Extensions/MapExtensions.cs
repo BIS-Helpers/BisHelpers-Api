@@ -1,4 +1,6 @@
-﻿namespace BisHelpers.Application.Extensions;
+﻿using BisHelpers.Domain.Dtos.AcademicCourse;
+
+namespace BisHelpers.Application.Extensions;
 public static class MapExtensions
 {
     public static ProfileDto MapToProfileDto(this AppUser model)
@@ -75,5 +77,31 @@ public static class MapExtensions
         };
 
         return modelDto;
+    }
+
+    public static ProfessorAcademicCourse MapToModel(this ProfessorAcademicCourseDto dto)
+    {
+        var model = new ProfessorAcademicCourse
+        {
+            ProfessorId = dto.ProfessorId,
+            Year = dto.Year,
+            AcademicCourseId = dto.AcademicCourseId,
+            AcademicSemesterId = dto.AcademicSemesterId,
+            AcademicLectures = dto.Lectures.MapToModel()
+        };
+
+        return model;
+    }
+
+    public static List<AcademicLecture> MapToModel(this List<AcademicLectureDto> DtoList)
+    {
+        var modelList = DtoList.Select(d => new AcademicLecture
+        {
+            Day = d.Day,
+            GroupNumber = d.GroupNumber,
+            StartTime = d.StartTime,
+        }).ToList();
+
+        return modelList;
     }
 }

@@ -8,7 +8,9 @@ public class AcademicLecture : BaseEntity
     [StringLength(2)]
     public string GroupNumber { get; set; } = null!;
 
-    public DateTime DateTime { get; set; }
+    public TimeOnly StartTime { get; set; }
+
+    public string Day { get; set; } = null!;
 
     #region Relations
     public ProfessorAcademicCourse? ProfessorAcademicCourse { get; set; }

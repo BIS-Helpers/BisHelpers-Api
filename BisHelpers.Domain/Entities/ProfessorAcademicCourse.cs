@@ -1,6 +1,6 @@
 ﻿namespace BisHelpers.Domain.Entities;
 
-[Index(nameof(AcademicSemesterId), nameof(AcademicCoursesId), nameof(ProfessorId), nameof(Year), IsUnique = true)]
+[Index(nameof(AcademicSemesterId), nameof(AcademicCourseId), nameof(ProfessorId), nameof(Year), IsUnique = true)]
 public class ProfessorAcademicCourse : BaseEntity
 {
     #region Prperties
@@ -11,7 +11,7 @@ public class ProfessorAcademicCourse : BaseEntity
 
     #region Relations
     public AcademicCourse? AcademicCourses { get; set; }
-    public int AcademicCoursesId { get; set; }
+    public int AcademicCourseId { get; set; }
 
     public AcademicSemester? AcademicSemester { get; set; }
     public int AcademicSemesterId { get; set; }

@@ -61,6 +61,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
         #region DataSeeding
         builder.Entity<AcademicCourse>().HasData(DefaultAcademicCourses.Data);
+        builder.Entity<AcademicSemester>().HasData(DefaultAcademicSemesters.Data);
         #endregion
 
         base.OnModelCreating(builder);
