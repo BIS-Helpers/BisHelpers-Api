@@ -27,8 +27,7 @@ public static class ConfigureServices
                 options
                     .AllowAnyHeader()
                     .AllowAnyMethod()
-                    .WithOrigins("*")
-                    .AllowCredentials();
+                    .AllowAnyOrigin();
             });
         });
 

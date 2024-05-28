@@ -14,7 +14,7 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseExceptionHandler(options => { });
-app.UseCors("AllowAll");
+app.UseCors("Restricted");
 
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
