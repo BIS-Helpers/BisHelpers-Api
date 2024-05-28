@@ -2,10 +2,12 @@
 global using System.Text;
 global using BisHelpers.Application;
 global using BisHelpers.Application.Extensions;
+global using BisHelpers.Application.Services.AcademicCourse;
 global using BisHelpers.Application.Services.Auth;
 global using BisHelpers.Application.Services.Professor;
 global using BisHelpers.Domain.Consts;
 global using BisHelpers.Domain.Dtos;
+global using BisHelpers.Domain.Dtos.AcademicCourse;
 global using BisHelpers.Domain.Dtos.Professor;
 global using BisHelpers.Domain.Dtos.Profile;
 global using BisHelpers.Domain.Entities;

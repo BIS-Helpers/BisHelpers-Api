@@ -1,6 +1,4 @@
-﻿using BisHelpers.Domain.Dtos.AcademicCourse;
-
-namespace BisHelpers.Application.Services.AcademicCourse;
+﻿namespace BisHelpers.Application.Services.AcademicCourse;
 public class AcademicCourseService(IUnitOfWork unitOfWork) : IAcademicCourseService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;

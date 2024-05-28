@@ -18,7 +18,7 @@ public static class ConfigureServices
                 options
                     .AllowAnyHeader()
                     .AllowAnyMethod()
-                    .WithOrigins(configuration.GetSection("AllowedOrigins").Get<string[]>() ?? ["*"])
+                    .WithOrigins(configuration.GetSection("AllowedOrigins").Get<string[]>()!)
                     .AllowCredentials();
             });
 

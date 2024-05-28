@@ -10,6 +10,7 @@ global using BisHelpers.Application.Services.Professor;
 global using BisHelpers.Application.Services.Student;
 global using BisHelpers.Domain.Consts;
 global using BisHelpers.Domain.Dtos;
+global using BisHelpers.Domain.Dtos.AcademicCourse;
 global using BisHelpers.Domain.Dtos.Professor;
 global using BisHelpers.Domain.Dtos.Profile;
 global using BisHelpers.Domain.Entities;

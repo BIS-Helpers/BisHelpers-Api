@@ -1,7 +1,4 @@
-﻿using BisHelpers.Application.Services.AcademicCourse;
-using BisHelpers.Domain.Dtos.AcademicCourse;
-
-namespace BisHelpers.web.RouteGroups.Groups;
+﻿namespace BisHelpers.web.RouteGroups.Groups;
 
 public static class AcademicCourseGroup
 {
