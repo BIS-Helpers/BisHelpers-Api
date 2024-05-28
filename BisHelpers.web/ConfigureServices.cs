@@ -18,7 +18,8 @@ public static class ConfigureServices
                 options
                     .AllowAnyHeader()
                     .AllowAnyMethod()
-                    .WithOrigins("http://localhost:4200");
+                    .WithOrigins(configuration.GetSection("AllowedOrigins").Get<string[]>() ?? ["*"])
+                    .AllowCredentials();
             });
 
             options.AddPolicy("AllowAll", options =>
@@ -26,7 +27,8 @@ public static class ConfigureServices
                 options
                     .AllowAnyHeader()
                     .AllowAnyMethod()
-                    .AllowAnyOrigin();
+                    .WithOrigins("*")
+                    .AllowCredentials();
             });
         });
 

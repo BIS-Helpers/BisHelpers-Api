@@ -20,6 +20,5 @@ public static class DateExtensions
     }
 
     public static string GetCurrentAcademicYear(this int year) =>
-        string.Join('/', year.ToString(), (year + 1).ToString());
-
+        string.Join('/', year.ToString(), (year - 1).ToString());
 }
