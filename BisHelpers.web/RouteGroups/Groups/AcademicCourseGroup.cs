@@ -5,7 +5,7 @@ public static class AcademicCourseGroup
     public static RouteGroupBuilder GroupAcademicCourseVersionOne(this RouteGroupBuilder builder)
     {
         builder.MapPost("/ProfessorWithLectures", [Authorize(Roles = AppRoles.Admin)]
-        async ([FromBody] ProfessorAcademicCourseDto dto, IValidator<ProfessorAcademicCourseDto> validator, IAcademicCourseService academicCourseService, HttpContext context) =>
+        async ([FromBody] CreateProfessorAcademicCourseDto dto, IValidator<CreateProfessorAcademicCourseDto> validator, IAcademicCourseService academicCourseService, HttpContext context) =>
         {
             var validationResult = validator.Validate(dto);
 
@@ -30,6 +30,53 @@ public static class AcademicCourseGroup
         .EndPointConfigurations(Name: "Add Professor To Course", version: Versions.Version1)
         .CreatedResponseConfiguration()
         .ErrorResponseConfiguration(StatusCodes.Status400BadRequest)
+        .UnauthorizedResponseConfiguration();
+
+        builder.MapGet("/", [Authorize]
+        async (IAcademicCourseService academicCourseService, HttpContext context) =>
+        {
+            var courses = await academicCourseService.GetAll();
+
+            if (courses is null)
+                return Results.NotFound();
+
+            return Results.Ok(courses.MapToDto());
+        })
+        .EndPointConfigurations(Name: "Get All Academic Courses", version: Versions.Version1)
+        .OkResponseConfiguration<IEnumerable<AcademicCourseDto>>()
+        .ErrorResponseConfiguration(StatusCodes.Status404NotFound, withBody: false)
+        .UnauthorizedResponseConfiguration();
+
+        builder.MapGet("/{id}", [Authorize]
+        async (int id, IAcademicCourseService academicCourseService, HttpContext context) =>
+        {
+            var course = await academicCourseService.GetById(id);
+
+            if (course is null)
+                return Results.NotFound();
+
+            var dto = course.MapToDto(isDetailed: context.User.IsInRole(AppRoles.Admin));
+
+            return Results.Ok(dto);
+        })
+        .EndPointConfigurations(Name: "Get Academic Course By Id", version: Versions.Version1)
+        .OkResponseConfiguration<AcademicCourseDetailedDto>()
+        .ErrorResponseConfiguration(StatusCodes.Status404NotFound, withBody: false)
+        .UnauthorizedResponseConfiguration();
+
+        builder.MapGet("/{academicCourseId}/Professors", [Authorize]
+        async (int academicCourseId, IProfessorService professorService, HttpContext context) =>
+        {
+            var professors = await professorService.GetAllAsync(academicCourseId);
+
+            if (professors is null)
+                return Results.NotFound();
+
+            return Results.Ok(professors);
+        })
+        .EndPointConfigurations(Name: "Get Professors By Academic Course Id", version: Versions.Version1)
+        .OkResponseConfiguration<ProfessorDto>()
+        .ErrorResponseConfiguration(StatusCodes.Status404NotFound, withBody: false)
         .UnauthorizedResponseConfiguration();
 
         return builder;

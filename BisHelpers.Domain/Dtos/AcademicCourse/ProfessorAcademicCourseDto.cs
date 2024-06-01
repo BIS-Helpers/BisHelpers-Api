@@ -1,19 +1,11 @@
-﻿namespace BisHelpers.Domain.Dtos.AcademicCourse;
+﻿using BisHelpers.Domain.Dtos.Professor;
 
-public class ProfessorAcademicCourseDto
+namespace BisHelpers.Domain.Dtos.AcademicCourse;
+public class ProfessorAcademicCourseDto : BaseDto
 {
-    [Required]
-    [Range(1, 9999)]
-    public int Year { get; set; }
+    public string? AcademicYear { get; set; }
 
-    [Required]
-    public int AcademicCourseId { get; set; }
+    public string? AcademicSemester { get; set; }
 
-    [Required]
-    public int AcademicSemesterId { get; set; }
-
-    [Required]
-    public int ProfessorId { get; set; }
-
-    public List<AcademicLectureDto> Lectures { get; set; } = [];
+    public ProfessorDto? Professor { get; set; }
 }

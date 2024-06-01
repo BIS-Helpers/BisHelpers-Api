@@ -6,4 +6,6 @@ public class Professor : BaseEntity
 
     [StringLength(100)]
     public string FullName { get; set; } = null!;
+
+    public ICollection<ProfessorAcademicCourse> AcademicCourses { get; set; } = [];
 }

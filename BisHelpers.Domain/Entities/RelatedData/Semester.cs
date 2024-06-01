@@ -1,7 +1,7 @@
 ﻿namespace BisHelpers.Domain.Entities.RelatedData;
 
 [Index(nameof(Name), IsUnique = true)]
-public class AcademicSemester
+public class Semester
 {
     public int Id { get; set; }
 

@@ -1,4 +1,4 @@
-﻿using BisHelpers.Domain.Dtos.AcademicCourse;
+﻿using BisHelpers.Domain.Entities.RelatedData;
 
 namespace BisHelpers.Application.Extensions;
 public static class MapExtensions
@@ -53,13 +53,13 @@ public static class MapExtensions
         return professor;
     }
 
-
     public static IEnumerable<ProfessorDto> MapToDto(this IEnumerable<Professor> modelList)
     {
         var modelListDto = modelList.Select(m => new ProfessorDto
         {
             Id = m.Id,
             FullName = m.FullName,
+            academicLectures = m.AcademicCourses.SelectMany(a => a.AcademicLectures).ToList().MapToDto()
         });
 
         return modelListDto;
@@ -79,21 +79,86 @@ public static class MapExtensions
         return modelDto;
     }
 
-    public static ProfessorAcademicCourse MapToModel(this ProfessorAcademicCourseDto dto)
+    public static AcademicCourseDetailedDto MapToDto(this AcademicCourse model, bool isDetailed = false)
+    {
+        var modelDto = new AcademicCourseDetailedDto
+        {
+            Id = model.Id,
+            Name = model.Name,
+            Code = model.Code,
+            CreditHours = model.CreditHours,
+            Professors = model.Professors.ToList().MapToDto(isDetailed),
+        };
+
+        return modelDto;
+    }
+
+    public static List<ProfessorAcademicCourseDto> MapToDto(this List<ProfessorAcademicCourse> DtoList, bool isDetailed = false)
+    {
+        var modelList = DtoList.Select(d => new ProfessorAcademicCourseDto
+        {
+            AcademicSemester = d.AcademicSemester?.Semester?.Name,
+            AcademicYear = d.AcademicSemester?.endDate.Year.GetAcademicYear(),
+            Professor = d.Professor.MapToDto(),
+
+            LastUpdatedBy = isDetailed ? d.LastUpdatedBy?.FullName : null,
+            LastUpdatedOn = isDetailed ? d.LastUpdatedOn : null,
+            CreatedBy = isDetailed ? d.CreatedBy?.FullName : null,
+            CreatedOn = isDetailed ? d.CreatedOn : null,
+            IsDeleted = isDetailed ? d.IsDeleted : null,
+
+        }).ToList();
+
+        return modelList;
+    }
+
+
+    public static List<AcademicLectureDto> MapToDto(this List<AcademicLecture> DtoList, bool isDetailed = false)
+    {
+        var modelList = DtoList.Select(d => new AcademicLectureDto
+        {
+            Id = d.Id,
+            StartTime = d.StartTime,
+            Day = d.Day,
+            GroupNumber = d.GroupNumber,
+
+            LastUpdatedBy = isDetailed ? d.LastUpdatedBy?.FullName : null,
+            LastUpdatedOn = isDetailed ? d.LastUpdatedOn : null,
+            CreatedBy = isDetailed ? d.CreatedBy?.FullName : null,
+            CreatedOn = isDetailed ? d.CreatedOn : null,
+            IsDeleted = isDetailed ? d.IsDeleted : null,
+
+        }).ToList();
+
+        return modelList;
+    }
+
+    public static IEnumerable<AcademicCourseDto> MapToDto(this IEnumerable<AcademicCourse> modelList)
+    {
+        var modelListDto = modelList.Select(m => new AcademicCourseDto
+        {
+            Id = m.Id,
+            Code = m.Code,
+            CreditHours = m.CreditHours,
+            Name = m.Name,
+        }).ToList();
+
+        return modelListDto;
+    }
+
+    public static ProfessorAcademicCourse MapToModel(this CreateProfessorAcademicCourseDto dto)
     {
         var model = new ProfessorAcademicCourse
         {
             ProfessorId = dto.ProfessorId,
-            Year = dto.Year,
             AcademicCourseId = dto.AcademicCourseId,
-            AcademicSemesterId = dto.AcademicSemesterId,
             AcademicLectures = dto.Lectures.MapToModel()
         };
 
         return model;
     }
 
-    public static List<AcademicLecture> MapToModel(this List<AcademicLectureDto> DtoList)
+    public static List<AcademicLecture> MapToModel(this List<CreateAcademicLectureDto> DtoList)
     {
         var modelList = DtoList.Select(d => new AcademicLecture
         {

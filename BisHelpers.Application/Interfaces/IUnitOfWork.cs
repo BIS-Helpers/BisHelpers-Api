@@ -9,6 +9,8 @@ public interface IUnitOfWork
     public IBaseRepository<Professor> Professors { get; }
     public IBaseRepository<AcademicCourse> AcademicCourses { get; }
     public IBaseRepository<AcademicLecture> AcademicLectures { get; }
+    public IBaseRepository<Semester> Semesters { get; }
+    public IBaseRepository<AcademicSemester> AcademicSemesters { get; }
 
     public Task BeginTransaction();
 

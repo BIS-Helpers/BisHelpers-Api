@@ -19,6 +19,24 @@ public static class DateExtensions
         return $"Level {yearsDiff}";
     }
 
-    public static string GetCurrentAcademicYear(this int year) =>
+    public static string GetAcademicYear(this int year) =>
         string.Join('/', year.ToString(), (year - 1).ToString());
+
+    public static bool IsCurrentAcademicYear(this int year)
+    {
+        var currentDate = DateOnly.FromDateTime(DateTime.UtcNow.Date);
+
+        if (currentDate.Month >= 9)
+        {
+            if ((year - 1) == currentDate.Year)
+                return true;
+
+            return false;
+        }
+
+        if (year == currentDate.Year)
+            return true;
+
+        return false;
+    }
 }

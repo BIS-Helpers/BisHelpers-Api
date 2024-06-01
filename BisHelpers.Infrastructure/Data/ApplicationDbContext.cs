@@ -8,6 +8,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<Student> Students { get; set; }
     public DbSet<AcademicRegistration> AcademicRegistrations { get; set; }
     public DbSet<AcademicSemester> AcademicSemesters { get; set; }
+    public DbSet<Semester> Semesters { get; set; }
     public DbSet<AcademicLecture> AcademicLectures { get; set; }
     public DbSet<AcademicCourse> AcademicCourses { get; set; }
     public DbSet<Professor> Professors { get; set; }
@@ -61,7 +62,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
 
         #region DataSeeding
         builder.Entity<AcademicCourse>().HasData(DefaultAcademicCourses.Data);
-        builder.Entity<AcademicSemester>().HasData(DefaultAcademicSemesters.Data);
+        builder.Entity<Semester>().HasData(DefaultAcademicSemesters.Data);
         #endregion
 
         base.OnModelCreating(builder);

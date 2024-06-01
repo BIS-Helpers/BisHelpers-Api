@@ -1,16 +1,11 @@
 ﻿namespace BisHelpers.Domain.Dtos.AcademicCourse;
-
-public class AcademicLectureDto
+public class AcademicLectureDto : BaseDto
 {
-    [Required]
-    [RegularExpression(RegexPatterns.NumbersOnly)]
-    [StringLength(2)]
+    public int Id { get; set; }
+
     public string GroupNumber { get; set; } = null!;
 
-    [Required]
     public TimeOnly StartTime { get; set; }
 
-    [Required]
-    [RegularExpression(RegexPatterns.WeekDaysOnly)]
     public string Day { get; set; } = null!;
 }
