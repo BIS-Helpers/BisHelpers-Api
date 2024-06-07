@@ -60,6 +60,8 @@ public class AcademicCourseService(IUnitOfWork unitOfWork, IAcademicSemesterServ
                 .ThenInclude(p => p.Professor)
             .Include(c => c.Professors)
                 .ThenInclude(p => p.AcademicSemester)
+            .Include(c => c.Professors)
+                .ThenInclude(p => p.AcademicLectures)
             .SingleOrDefaultAsync(c => c.Id == id);
 
         if (course is null)

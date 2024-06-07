@@ -1,6 +1,7 @@
 ﻿global using System.ComponentModel.DataAnnotations;
 global using System.Text.Json.Serialization;
 global using BisHelpers.Domain.Consts;
+global using BisHelpers.Domain.Dtos.AcademicLecture;
 global using BisHelpers.Domain.Dtos.Professor;
 global using BisHelpers.Domain.Entities;
 global using BisHelpers.Domain.Entities.RelatedData;

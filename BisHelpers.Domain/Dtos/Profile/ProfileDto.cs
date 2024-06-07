@@ -1,6 +1,4 @@
-﻿using BisHelpers.Domain.Dtos.AcademicLecture;
-
-namespace BisHelpers.Domain.Dtos.Profile;
+﻿namespace BisHelpers.Domain.Dtos.Profile;
 
 public class ProfileDto
 {
