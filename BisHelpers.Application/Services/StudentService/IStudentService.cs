@@ -1,7 +1,9 @@
-﻿namespace BisHelpers.Application.Services.StudentService;
+﻿using BisHelpers.Domain.Dtos.Student;
+
+namespace BisHelpers.Application.Services.StudentService;
 public interface IStudentService
 {
-    public Task<Response> RegisterAcademicLecturesAsync(string userId, IEnumerable<int> lecturesIds);
+    public Task<Response> RegisterAcademicLecturesAsync(string userId, RegisterAcademicLecturesDto dto);
 
     public Task<Student?> GetStudentAsync(string userId);
 

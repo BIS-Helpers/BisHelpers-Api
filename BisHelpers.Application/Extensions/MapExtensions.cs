@@ -10,8 +10,8 @@ public static class MapExtensions
             PhoneNumber = model.PhoneNumber ?? string.Empty,
             Gender = model.Gender,
             BirthDate = model.BirthDate,
-            RegisteredAcademicLectures = model.Student?.AcademicLectures?
-                .Select(a => a.AcademicLecture ?? new AcademicLecture())
+            RegisteredAcademicLectures = model.Student?.Registrations?
+                .SelectMany(r => r.Lectures.Select(l => l.AcademicLecture ?? new AcademicLecture()))
                 .ToAcademicLectureWithProfessorDto()
         };
 

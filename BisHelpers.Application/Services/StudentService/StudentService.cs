@@ -1,4 +1,6 @@
-﻿namespace BisHelpers.Application.Services.StudentService;
+﻿using BisHelpers.Domain.Dtos.Student;
+
+namespace BisHelpers.Application.Services.StudentService;
 public class StudentService(IUnitOfWork unitOfWork, UserManager<AppUser> userManager) : IStudentService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
@@ -16,15 +18,24 @@ public class StudentService(IUnitOfWork unitOfWork, UserManager<AppUser> userMan
         return user.Student;
     }
 
-    public async Task<Response> RegisterAcademicLecturesAsync(string userId, IEnumerable<int> lecturesIds)
+    public async Task<Response> RegisterAcademicLecturesAsync(string userId, RegisterAcademicLecturesDto dto)
     {
         var student = await GetStudentAsync(userId);
 
         if (student is null)
-            return new Response { ErrorBody = new ErrorBody { Message = "Can not register academic lectures", Details = ["user not found"] } };
+            return new Response { ErrorBody = new ErrorBody { Message = "Can not register academic lectures", Details = ["student not found"] } };
 
-        foreach (var lecturesId in lecturesIds)
-            student.AcademicLectures.Add(new AcademicRegistration { AcademicLectureId = lecturesId, CreatedById = userId });
+        var registration = new AcademicRegistration
+        {
+            Gpa = dto.Gpa,
+            TotalEarnedHours = dto.TotalEarnedHours,
+            CreatedById = userId
+        };
+
+        foreach (var lecturesId in dto.LecturesIds)
+            registration.Lectures.Add(new RegistrationLecture { AcademicLectureId = lecturesId });
+
+        student.Registrations.Add(registration);
 
         _unitOfWork.Students.Update(student);
         await _unitOfWork.CompleteAsync();

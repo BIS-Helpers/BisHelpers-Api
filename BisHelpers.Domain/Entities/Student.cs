@@ -16,6 +16,6 @@ public class Student : BaseEntity
     public AppUser? User { get; set; }
     public string UserId { get; set; } = null!;
 
-    public ICollection<AcademicRegistration> AcademicLectures { get; set; } = [];
+    public ICollection<AcademicRegistration> Registrations { get; set; } = [];
     #endregion 
 }

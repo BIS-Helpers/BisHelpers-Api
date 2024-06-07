@@ -7,6 +7,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<RefreshToken> RefreshTokens { get; set; }
     public DbSet<Student> Students { get; set; }
     public DbSet<AcademicRegistration> AcademicRegistrations { get; set; }
+    public DbSet<RegistrationLecture> RegistrationsLectures { get; set; }
     public DbSet<AcademicSemester> AcademicSemesters { get; set; }
     public DbSet<Semester> Semesters { get; set; }
     public DbSet<AcademicLecture> AcademicLectures { get; set; }
@@ -22,6 +23,9 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
         #region ConfigureKeys
         builder.Entity<RefreshToken>()
             .HasKey(e => new { e.Id, e.UserId });
+
+        builder.Entity<RegistrationLecture>()
+            .HasKey(e => new { e.AcademicLectureId, e.AcademicRegistrationId });
 
         builder.Entity<RefreshToken>()
           .Property(e => e.Id)

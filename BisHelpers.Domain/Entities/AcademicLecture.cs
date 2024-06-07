@@ -1,6 +1,7 @@
 ﻿namespace BisHelpers.Domain.Entities;
 
 [Index(nameof(GroupNumber), nameof(ProfessorAcademicCourseId), IsUnique = true)]
+[Index(nameof(Day), nameof(StartTime), nameof(ProfessorAcademicCourseId), IsUnique = true)]
 public class AcademicLecture : BaseEntity
 {
     public int Id { get; set; }
@@ -16,6 +17,6 @@ public class AcademicLecture : BaseEntity
     public ProfessorAcademicCourse? ProfessorAcademicCourse { get; set; }
     public int ProfessorAcademicCourseId { get; set; }
 
-    public ICollection<AcademicRegistration> Students { get; set; } = [];
+    public ICollection<RegistrationLecture> Registrations { get; set; } = [];
     #endregion
 }

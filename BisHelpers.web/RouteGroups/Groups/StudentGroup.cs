@@ -10,7 +10,7 @@ public static class StudentGroup
         builder.MapPost("/RegisterAcademicLectures", [Authorize(Roles = AppRoles.Student)]
         async ([FromBody] RegisterAcademicLecturesDto dto, IStudentService studentService, HttpContext context) =>
         {
-            var result = await studentService.RegisterAcademicLecturesAsync(context.User.GetUserId(), dto.LecturesIds);
+            var result = await studentService.RegisterAcademicLecturesAsync(context.User.GetUserId(), dto);
 
             if (!result.IsSuccess)
                 return Results.BadRequest(new ErrorDto(context)
