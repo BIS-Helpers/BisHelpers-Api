@@ -1,14 +1,11 @@
-﻿using BisHelpers.Application.Services.AcademicCourseService;
-using BisHelpers.Application.Services.ProfessorService;
-
-namespace BisHelpers.web.RouteGroups.Groups;
+﻿namespace BisHelpers.web.RouteGroups.Groups;
 
 public static class AcademicCourseGroup
 {
     public static RouteGroupBuilder GroupAcademicCourseVersionOne(this RouteGroupBuilder builder)
     {
         builder.MapPost("/ProfessorWithLectures", [Authorize(Roles = AppRoles.Admin)]
-        async ([FromBody] CreateProfessorAcademicCourseDto dto, IValidator<CreateProfessorAcademicCourseDto> validator, IAcademicCourseService academicCourseService, HttpContext context) =>
+        async ([FromBody] AddProfessorToAcademicCourseDto dto, IValidator<AddProfessorToAcademicCourseDto> validator, IAcademicCourseService academicCourseService, HttpContext context) =>
         {
             var validationResult = validator.Validate(dto);
 
@@ -43,10 +40,12 @@ public static class AcademicCourseGroup
             if (courses is null)
                 return Results.NotFound();
 
-            return Results.Ok(courses.MapToDto());
+            var coursesDto = courses.MapToDto();
+
+            return Results.Ok(coursesDto);
         })
         .EndPointConfigurations(Name: "Get All Academic Courses", version: Versions.Version1)
-        .OkResponseConfiguration<IEnumerable<AcademicCourseDto>>()
+        .OkResponseConfiguration<IEnumerable<AcademicCourseBaseDto>>()
         .ErrorResponseConfiguration(StatusCodes.Status404NotFound, withBody: false)
         .UnauthorizedResponseConfiguration();
 
@@ -63,7 +62,7 @@ public static class AcademicCourseGroup
             return Results.Ok(dto);
         })
         .EndPointConfigurations(Name: "Get Academic Course By Id", version: Versions.Version1)
-        .OkResponseConfiguration<AcademicCourseDetailedDto>()
+        .OkResponseConfiguration<AcademicCourseWithProfessorsDto>()
         .ErrorResponseConfiguration(StatusCodes.Status404NotFound, withBody: false)
         .UnauthorizedResponseConfiguration();
 
@@ -75,10 +74,12 @@ public static class AcademicCourseGroup
             if (professors is null)
                 return Results.NotFound();
 
-            return Results.Ok(professors);
+            var professorsDto = professors.ToProfessorWithLecturesDto(isDetailed: context.User.IsInRole(AppRoles.Admin));
+
+            return Results.Ok(professorsDto);
         })
         .EndPointConfigurations(Name: "Get Professors By Academic Course Id", version: Versions.Version1)
-        .OkResponseConfiguration<ProfessorWithLecturesDto>()
+        .OkResponseConfiguration<IEnumerable<ProfessorWithLecturesDto>>()
         .ErrorResponseConfiguration(StatusCodes.Status404NotFound, withBody: false)
         .UnauthorizedResponseConfiguration();
 

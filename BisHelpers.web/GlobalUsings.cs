@@ -3,6 +3,7 @@ global using System.Text;
 global using BisHelpers.Application;
 global using BisHelpers.Application.Extensions;
 global using BisHelpers.Application.Extensions.MappingExtensions;
+global using BisHelpers.Application.Services.AcademicCourseService;
 global using BisHelpers.Application.Services.ProfessorService;
 global using BisHelpers.Domain.Consts;
 global using BisHelpers.Domain.Dtos;

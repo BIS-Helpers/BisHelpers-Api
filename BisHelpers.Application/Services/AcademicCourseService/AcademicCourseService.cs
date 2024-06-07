@@ -4,7 +4,7 @@ public class AcademicCourseService(IUnitOfWork unitOfWork, IAcademicSemesterServ
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IAcademicSemesterService _academicSemesterService = academicSemesterService;
 
-    public async Task<Response<AcademicCourse>> AddProfessorAsync(CreateProfessorAcademicCourseDto dto, string userId)
+    public async Task<Response<AcademicCourse>> AddProfessorAsync(AddProfessorToAcademicCourseDto dto, string userId)
     {
         var currentAcademicSemesterId = await _academicSemesterService.GetCurrentAcademicSemester();
 

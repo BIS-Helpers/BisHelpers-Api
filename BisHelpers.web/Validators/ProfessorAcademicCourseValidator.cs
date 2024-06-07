@@ -2,7 +2,7 @@
 
 namespace BisHelpers.web.Validators;
 
-public class ProfessorAcademicCourseValidator : AbstractValidator<CreateProfessorAcademicCourseDto>
+public class ProfessorAcademicCourseValidator : AbstractValidator<AddProfessorToAcademicCourseDto>
 {
     public ProfessorAcademicCourseValidator()
     {

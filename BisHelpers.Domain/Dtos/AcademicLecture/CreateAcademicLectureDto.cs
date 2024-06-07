@@ -1,4 +1,4 @@
-﻿namespace BisHelpers.Domain.Dtos.AcademicCourse;
+﻿namespace BisHelpers.Domain.Dtos.AcademicLecture;
 
 public class CreateAcademicLectureDto
 {

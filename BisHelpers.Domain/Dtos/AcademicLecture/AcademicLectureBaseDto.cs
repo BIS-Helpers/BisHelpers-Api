@@ -1,5 +1,5 @@
-﻿namespace BisHelpers.Domain.Dtos.AcademicCourse;
-public class AcademicLectureDto : BaseDto
+﻿namespace BisHelpers.Domain.Dtos.AcademicLecture;
+public class AcademicLectureBaseDto : BaseDto
 {
     public int Id { get; set; }
 
@@ -8,6 +8,4 @@ public class AcademicLectureDto : BaseDto
     public TimeOnly StartTime { get; set; }
 
     public string Day { get; set; } = null!;
-
-    public ProfessorAcademicCourseDto? ProfessorAcademicCourse { get; set; }
 }

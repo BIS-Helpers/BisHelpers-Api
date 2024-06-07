@@ -1,5 +1,5 @@
 ﻿namespace BisHelpers.Domain.Dtos.AcademicCourse;
-public class AcademicCourseDto
+public class AcademicCourseBaseDto
 {
     public int Id { get; set; }
 

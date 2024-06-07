@@ -1,7 +1,7 @@
-﻿using BisHelpers.Domain.Dtos.AcademicCourse;
+﻿using BisHelpers.Domain.Dtos.AcademicLecture;
 
 namespace BisHelpers.Domain.Dtos.Professor;
 public class ProfessorWithLecturesDto : ProfessorBaseDto
 {
-    public IEnumerable<AcademicLectureDto> AcademicLectures { get; set; } = [];
+    public IEnumerable<AcademicLectureBaseDto> AcademicLectures { get; set; } = [];
 }

@@ -10,7 +10,7 @@ public static class ProfessorMappingExtension
             FullName = m.FullName,
             AcademicLectures = m.AcademicCourses
             .SelectMany(a => a.AcademicLectures)
-            .ToList().MapToDto(),
+            .ToAcademicLectureBaseDto(),
 
             LastUpdatedBy = isDetailed ? m.LastUpdatedBy?.FullName : null,
             LastUpdatedOn = isDetailed ? m.LastUpdatedOn : null,
@@ -47,7 +47,7 @@ public static class ProfessorMappingExtension
             FullName = model.FullName,
             AcademicLectures = model.AcademicCourses
             .SelectMany(a => a.AcademicLectures)
-            .ToList().MapToDto(),
+            .ToAcademicLectureBaseDto(),
 
             LastUpdatedBy = isDetailed ? model.LastUpdatedBy?.FullName : null,
             LastUpdatedOn = isDetailed ? model.LastUpdatedOn : null,
