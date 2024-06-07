@@ -1,18 +1,15 @@
-﻿using BisHelpers.Application.Services.AcademicSemesterService;
-
-namespace BisHelpers.Application.Services.AcademicCourseService;
+﻿namespace BisHelpers.Application.Services.AcademicCourseService;
 public class AcademicCourseService(IUnitOfWork unitOfWork, IAcademicSemesterService academicSemesterService) : IAcademicCourseService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IAcademicSemesterService _academicSemesterService = academicSemesterService;
 
-    public async Task<Response<Domain.Entities.RelatedData.AcademicCourse>> AddProfessorAsync(CreateProfessorAcademicCourseDto dto, string userId)
+    public async Task<Response<AcademicCourse>> AddProfessorAsync(CreateProfessorAcademicCourseDto dto, string userId)
     {
         var currentAcademicSemesterId = await _academicSemesterService.GetCurrentAcademicSemester();
 
         if (currentAcademicSemesterId is null)
-        {
-            return new Response<Domain.Entities.RelatedData.AcademicCourse>
+            return new Response<AcademicCourse>
             {
                 ErrorBody = new ErrorBody
                 {
@@ -20,13 +17,11 @@ public class AcademicCourseService(IUnitOfWork unitOfWork, IAcademicSemesterServ
                     Details = ["There is no active academic semester"]
                 }
             };
-        }
 
         var academicCourse = _unitOfWork.AcademicCourses.GetById(dto.AcademicCourseId);
 
         if (academicCourse is null)
-        {
-            return new Response<Domain.Entities.RelatedData.AcademicCourse>
+            return new Response<AcademicCourse>
             {
                 ErrorBody = new ErrorBody
                 {
@@ -34,7 +29,6 @@ public class AcademicCourseService(IUnitOfWork unitOfWork, IAcademicSemesterServ
                     Details = ["Academic course not found"]
                 }
             };
-        }
 
         var professorAcademicCourse = dto.MapToModel();
 
@@ -42,32 +36,18 @@ public class AcademicCourseService(IUnitOfWork unitOfWork, IAcademicSemesterServ
         professorAcademicCourse.AcademicSemesterId = (int)currentAcademicSemesterId;
 
         foreach (var lecture in professorAcademicCourse.AcademicLectures)
-        {
             lecture.CreatedById = userId;
-        }
 
         academicCourse.Professors.Add(professorAcademicCourse);
         await _unitOfWork.CompleteAsync();
 
-        return new Response<Domain.Entities.RelatedData.AcademicCourse>
-        {
-            IsSuccess = true,
-            Model = academicCourse
-        };
-
+        return new Response<AcademicCourse> { IsSuccess = true, Model = academicCourse };
     }
 
-    public async Task<IEnumerable<Domain.Entities.RelatedData.AcademicCourse>?> GetAll()
-    {
-        var courses = _unitOfWork.AcademicCourses.GetAll();
+    public async Task<IEnumerable<AcademicCourse>> GetAll() =>
+        _unitOfWork.AcademicCourses.GetAll();
 
-        if (courses is null)
-            return null;
-
-        return courses;
-    }
-
-    public async Task<Domain.Entities.RelatedData.AcademicCourse?> GetById(int id)
+    public async Task<AcademicCourse?> GetById(int id)
     {
         var courseQueryable = _unitOfWork.AcademicCourses.GetQueryable();
 

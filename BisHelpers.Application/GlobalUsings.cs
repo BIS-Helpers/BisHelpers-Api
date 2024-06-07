@@ -13,6 +13,7 @@ global using BisHelpers.Domain.Dtos.AcademicCourse;
 global using BisHelpers.Domain.Dtos.Professor;
 global using BisHelpers.Domain.Dtos.Profile;
 global using BisHelpers.Domain.Entities;
+global using BisHelpers.Domain.Entities.RelatedData;
 global using BisHelpers.Domain.Models;
 global using Microsoft.AspNetCore.Identity;
 global using Microsoft.EntityFrameworkCore;
