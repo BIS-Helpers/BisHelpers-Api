@@ -1,4 +1,4 @@
-﻿namespace BisHelpers.Application.Services.AcademicSemester;
+﻿namespace BisHelpers.Application.Services.AcademicSemesterService;
 public class AcademicSemesterService(IUnitOfWork unitOfWork) : IAcademicSemesterService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;

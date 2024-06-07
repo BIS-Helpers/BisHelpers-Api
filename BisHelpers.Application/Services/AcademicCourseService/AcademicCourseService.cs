@@ -1,6 +1,6 @@
-﻿using BisHelpers.Application.Services.AcademicSemester;
+﻿using BisHelpers.Application.Services.AcademicSemesterService;
 
-namespace BisHelpers.Application.Services.AcademicCourse;
+namespace BisHelpers.Application.Services.AcademicCourseService;
 public class AcademicCourseService(IUnitOfWork unitOfWork, IAcademicSemesterService academicSemesterService) : IAcademicCourseService
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;

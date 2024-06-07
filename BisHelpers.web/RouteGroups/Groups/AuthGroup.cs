@@ -1,4 +1,6 @@
-﻿namespace BisHelpers.web.RouteGroups.Groups;
+﻿using BisHelpers.Application.Services.AuthService;
+
+namespace BisHelpers.web.RouteGroups.Groups;
 
 public static class AuthGroup
 {

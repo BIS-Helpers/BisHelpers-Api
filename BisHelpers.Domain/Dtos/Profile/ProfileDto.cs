@@ -1,4 +1,6 @@
-﻿namespace BisHelpers.Domain.Dtos.Profile;
+﻿using BisHelpers.Domain.Dtos.AcademicCourse;
+
+namespace BisHelpers.Domain.Dtos.Profile;
 
 public class ProfileDto
 {
@@ -15,4 +17,6 @@ public class ProfileDto
     public string? Level { get; set; }
 
     public string? CollegeId { get; set; }
+
+    public List<AcademicLectureDto>? RegisteredAcademicLectures { get; set; } = [];
 }

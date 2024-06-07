@@ -1,4 +1,4 @@
-﻿namespace BisHelpers.Application.Services.AcademicCourse;
+﻿namespace BisHelpers.Application.Services.AcademicCourseService;
 public interface IAcademicCourseService
 {
     public Task<Response<Domain.Entities.RelatedData.AcademicCourse>> AddProfessorAsync(CreateProfessorAcademicCourseDto dto, string userId);

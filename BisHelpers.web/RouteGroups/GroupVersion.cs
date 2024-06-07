@@ -9,6 +9,7 @@ public static class GroupVersion
         builder.MapGroup("/auth").GroupAuthVersionOne().WithTags("Authentication");
         builder.MapGroup("/professor").GroupProfessorVersionOne().WithTags("Professor");
         builder.MapGroup("/AcademicCourse").GroupAcademicCourseVersionOne().WithTags("Academic Course");
+        builder.MapGroup("/Student").GroupStudentVersionOne().WithTags("Student");
 
         return builder;
     }

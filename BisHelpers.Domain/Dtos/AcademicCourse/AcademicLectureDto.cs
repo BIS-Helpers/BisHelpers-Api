@@ -8,4 +8,6 @@ public class AcademicLectureDto : BaseDto
     public TimeOnly StartTime { get; set; }
 
     public string Day { get; set; } = null!;
+
+    public ProfessorAcademicCourseDto? ProfessorAcademicCourse { get; set; }
 }

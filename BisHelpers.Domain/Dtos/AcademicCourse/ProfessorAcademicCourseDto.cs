@@ -5,7 +5,9 @@ public class ProfessorAcademicCourseDto : BaseDto
 {
     public string? AcademicYear { get; set; }
 
+    public string? AcademicCourse { get; set; }
+
     public string? AcademicSemester { get; set; }
 
-    public ProfessorDto? Professor { get; set; }
+    public ProfessorWithLecturesDto? Professor { get; set; }
 }

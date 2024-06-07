@@ -1,5 +1,8 @@
-﻿using BisHelpers.Application.Services.AcademicCourse;
-using BisHelpers.Application.Services.AcademicSemester;
+﻿using BisHelpers.Application.Services.AcademicCourseService;
+using BisHelpers.Application.Services.AcademicSemesterService;
+using BisHelpers.Application.Services.AuthService;
+using BisHelpers.Application.Services.ProfessorService;
+using BisHelpers.Application.Services.StudentService;
 
 namespace BisHelpers.Application;
 public static class ConfigureServices

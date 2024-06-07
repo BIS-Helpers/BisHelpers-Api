@@ -1,4 +1,4 @@
-﻿namespace BisHelpers.Application.Services.Auth;
+﻿namespace BisHelpers.Application.Services.AuthService;
 
 public class AuthService(UserManager<AppUser> userManager, IUnitOfWork unitOfWork, IOptions<JWT> jwt) : IAuthService
 {
@@ -40,6 +40,21 @@ public class AuthService(UserManager<AppUser> userManager, IUnitOfWork unitOfWor
     {
         var user = await _userManager.Users
             .Include(u => u.Student)
+                .ThenInclude(u => u.AcademicLectures)
+                    .ThenInclude(a => a.AcademicLecture)
+                        .ThenInclude(a => a.ProfessorAcademicCourse)
+                         .ThenInclude(p => p.Professor)
+            .Include(u => u.Student)
+                .ThenInclude(u => u.AcademicLectures)
+                    .ThenInclude(a => a.AcademicLecture)
+                        .ThenInclude(a => a.ProfessorAcademicCourse)
+                         .ThenInclude(p => p.AcademicSemester)
+                            .ThenInclude(a => a.Semester)
+            .Include(u => u.Student)
+                .ThenInclude(u => u.AcademicLectures)
+                    .ThenInclude(a => a.AcademicLecture)
+                        .ThenInclude(a => a.ProfessorAcademicCourse)
+                         .ThenInclude(p => p.AcademicCourses)
             .FirstOrDefaultAsync(u => u.Id == userId);
 
         if (user is null)

@@ -1,4 +1,4 @@
-﻿namespace BisHelpers.Application.Services.Auth;
+﻿namespace BisHelpers.Application.Services.AuthService;
 
 public interface IAuthService
 {

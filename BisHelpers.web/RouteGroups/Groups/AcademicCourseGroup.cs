@@ -1,4 +1,7 @@
-﻿namespace BisHelpers.web.RouteGroups.Groups;
+﻿using BisHelpers.Application.Services.AcademicCourseService;
+using BisHelpers.Application.Services.ProfessorService;
+
+namespace BisHelpers.web.RouteGroups.Groups;
 
 public static class AcademicCourseGroup
 {
@@ -75,7 +78,7 @@ public static class AcademicCourseGroup
             return Results.Ok(professors);
         })
         .EndPointConfigurations(Name: "Get Professors By Academic Course Id", version: Versions.Version1)
-        .OkResponseConfiguration<ProfessorDto>()
+        .OkResponseConfiguration<ProfessorWithLecturesDto>()
         .ErrorResponseConfiguration(StatusCodes.Status404NotFound, withBody: false)
         .UnauthorizedResponseConfiguration();
 

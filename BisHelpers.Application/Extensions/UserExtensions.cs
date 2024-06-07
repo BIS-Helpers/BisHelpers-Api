@@ -5,6 +5,9 @@ public static class UserExtensions
     public static string GetUserId(this ClaimsPrincipal user) =>
         user.FindFirst(ClaimTypes.NameIdentifier)?.Value ?? string.Empty;
 
+    public static string GetFullName(this ClaimsPrincipal user) =>
+        user.FindFirst(ClaimTypes.GivenName)?.Value ?? string.Empty;
+
     public static JwtSecurityToken CreateJwtToken(this AppUser user, IList<string>? userRoles, IList<Claim>? userClaims, JWT jwt)
     {
         var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key));
@@ -29,6 +32,7 @@ public static class UserExtensions
 
         var claims = new[]
         {
+            new Claim(JwtRegisteredClaimNames.GivenName, user.FullName),
             new Claim(JwtRegisteredClaimNames.Email, user.Email ?? string.Empty),
             new Claim(JwtRegisteredClaimNames.Sub, user.Id)
         }.Union(userClaims ?? []).Union(roleClaims);

@@ -1,4 +1,5 @@
-﻿using BisHelpers.Domain.Entities.RelatedData;
+﻿using BisHelpers.Application.Extensions.MappingExtensions;
+using BisHelpers.Domain.Entities.RelatedData;
 
 namespace BisHelpers.Application.Extensions;
 public static class MapExtensions
@@ -12,6 +13,7 @@ public static class MapExtensions
             PhoneNumber = model.PhoneNumber ?? string.Empty,
             Gender = model.Gender,
             BirthDate = model.BirthDate,
+            RegisteredAcademicLectures = model.Student?.AcademicLectures?.Select(a => a.AcademicLecture).ToList()!.MapToDto()
         };
 
         return profile;
@@ -43,42 +45,6 @@ public static class MapExtensions
         return student;
     }
 
-    public static Professor MapToProfessor(this ProfessorCreateDto dto)
-    {
-        var professor = new Professor
-        {
-            FullName = dto.FullName,
-        };
-
-        return professor;
-    }
-
-    public static IEnumerable<ProfessorDto> MapToDto(this IEnumerable<Professor> modelList)
-    {
-        var modelListDto = modelList.Select(m => new ProfessorDto
-        {
-            Id = m.Id,
-            FullName = m.FullName,
-            academicLectures = m.AcademicCourses.SelectMany(a => a.AcademicLectures).ToList().MapToDto()
-        });
-
-        return modelListDto;
-    }
-
-    public static ProfessorDto MapToDto(this Professor? model)
-    {
-        if (model is null)
-            return new ProfessorDto();
-
-        var modelDto = new ProfessorDto
-        {
-            Id = model.Id,
-            FullName = model.FullName,
-        };
-
-        return modelDto;
-    }
-
     public static AcademicCourseDetailedDto MapToDto(this AcademicCourse model, bool isDetailed = false)
     {
         var modelDto = new AcademicCourseDetailedDto
@@ -93,13 +59,27 @@ public static class MapExtensions
         return modelDto;
     }
 
+    public static ProfessorAcademicCourseDto MapToDto(this ProfessorAcademicCourse model)
+    {
+        var modelDto = new ProfessorAcademicCourseDto
+        {
+            AcademicSemester = model.AcademicSemester?.Semester?.Name,
+            AcademicYear = model.AcademicSemester?.endDate.Year.GetAcademicYear(),
+            Professor = model.Professor?.ToProfessorWithLecturesDto(),
+            AcademicCourse = model.AcademicCourses?.Name
+        };
+
+        return modelDto;
+    }
+
+
     public static List<ProfessorAcademicCourseDto> MapToDto(this List<ProfessorAcademicCourse> DtoList, bool isDetailed = false)
     {
         var modelList = DtoList.Select(d => new ProfessorAcademicCourseDto
         {
             AcademicSemester = d.AcademicSemester?.Semester?.Name,
             AcademicYear = d.AcademicSemester?.endDate.Year.GetAcademicYear(),
-            Professor = d.Professor.MapToDto(),
+            Professor = d.Professor?.ToProfessorWithLecturesDto(),
 
             LastUpdatedBy = isDetailed ? d.LastUpdatedBy?.FullName : null,
             LastUpdatedOn = isDetailed ? d.LastUpdatedOn : null,
@@ -121,6 +101,7 @@ public static class MapExtensions
             StartTime = d.StartTime,
             Day = d.Day,
             GroupNumber = d.GroupNumber,
+            ProfessorAcademicCourse = d.ProfessorAcademicCourse?.MapToDto(),
 
             LastUpdatedBy = isDetailed ? d.LastUpdatedBy?.FullName : null,
             LastUpdatedOn = isDetailed ? d.LastUpdatedOn : null,
