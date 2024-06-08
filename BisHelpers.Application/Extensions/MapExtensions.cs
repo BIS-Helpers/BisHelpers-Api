@@ -1,4 +1,6 @@
-﻿namespace BisHelpers.Application.Extensions;
+﻿using BisHelpers.Domain.Dtos.Student;
+
+namespace BisHelpers.Application.Extensions;
 public static class MapExtensions
 {
     public static ProfileDto MapToProfileDto(this AppUser model)
@@ -18,6 +20,26 @@ public static class MapExtensions
         };
 
         return profile;
+    }
+
+    public static GpaAnalysisDto ToGpaAnalysisDto(this AppUser model)
+    {
+        var dto = new GpaAnalysisDto
+        {
+            FullName = model.FullName,
+            Gpa = model.Student?.Registrations.FirstOrDefault()?.Gpa ?? 0,
+            TotalEarnedHours = model.Student?.Registrations.FirstOrDefault()?.TotalEarnedHours ?? 0,
+            CollegeId = model.Student?.CollegeId ?? string.Empty,
+            RegisteredAcademicLectures = model.Student?.Registrations?
+                .SelectMany(r => r.Lectures.Select(l => l.AcademicLecture ?? new AcademicLecture()))
+                .ToAcademicLectureWithProfessorDto()
+        };
+
+        dto.MinGradeToSaveGpa = model.Student?.Registrations?
+                .SelectMany(r => r.Lectures.Select(l => l.AcademicLecture?.ProfessorAcademicCourse?.AcademicCourses ?? new AcademicCourse()))
+                .GetMinGrade(dto.MinPointsToSaveGpa) ?? string.Empty;
+
+        return dto;
     }
 
     public static AppUser MapToAppUser(this RegisterDto model)

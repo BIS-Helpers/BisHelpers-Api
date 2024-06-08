@@ -7,7 +7,7 @@ public class StudentService(IUnitOfWork unitOfWork, UserManager<AppUser> userMan
     private readonly UserManager<AppUser> _userManager = userManager;
     private readonly IAcademicSemesterService _academicSemesterService = academicSemesterService;
 
-    public async Task<Student?> GetStudentAsync(string userId)
+    public async Task<Student?> GetStudentIdByUserIdAsync(string userId)
     {
         var user = await _userManager.Users
             .Include(u => u.Student)
@@ -21,19 +21,14 @@ public class StudentService(IUnitOfWork unitOfWork, UserManager<AppUser> userMan
 
     public async Task<Response> RegisterAcademicLecturesAsync(string userId, RegisterAcademicLecturesDto dto)
     {
-        var student = await GetStudentAsync(userId);
-
-        if (student is null)
-            return new Response { ErrorBody = new ErrorBody { Message = "Can not register academic lectures", Details = ["user not found"] } };
-
-        var detailedStudent = _unitOfWork.Students.Find(
-            predicate: s => !s.IsDeleted && s.Id == student.Id,
+        var student = _unitOfWork.Students.Find(
+            predicate: s => !s.IsDeleted && s.UserId == userId,
             include: s => s.Include(s => s.Registrations).ThenInclude(r => r.Lectures).ThenInclude(l => l.AcademicLecture).ThenInclude(a => a.ProfessorAcademicCourse)!);
 
-        if (detailedStudent is null)
+        if (student is null)
             return new Response { ErrorBody = new ErrorBody { Message = "Can not register academic lectures", Details = ["student not found"] } };
 
-        var result = await IsStudentHasActiveRegistration(student);
+        var result = await IsStudentHasActiveRegistrationAsync(student);
 
         if (result)
             return new Response { ErrorBody = new ErrorBody { Message = "Can not register academic lectures", Details = ["student Has Active Academic Registration"] } };
@@ -42,7 +37,7 @@ public class StudentService(IUnitOfWork unitOfWork, UserManager<AppUser> userMan
         {
             Gpa = dto.Gpa,
             TotalEarnedHours = dto.TotalEarnedHours,
-            CreatedById = userId
+            CreatedById = student.UserId
         };
 
         foreach (var lecturesId in dto.LecturesIds)
@@ -56,7 +51,38 @@ public class StudentService(IUnitOfWork unitOfWork, UserManager<AppUser> userMan
         return new Response { IsSuccess = true };
     }
 
-    private async Task<bool> IsStudentHasActiveRegistration(Student student)
+    public async Task<AppUser?> GetDetailedStudentUserByUserIdAsync(string userId)
+    {
+        var student = await _userManager.Users
+            .Include(u => u.Student)
+                .ThenInclude(u => u.Registrations)
+                    .ThenInclude(u => u.Lectures)
+                        .ThenInclude(a => a.AcademicLecture)
+                            .ThenInclude(a => a.ProfessorAcademicCourse)
+                                .ThenInclude(p => p.Professor)
+            .Include(u => u.Student)
+                .ThenInclude(u => u.Registrations)
+                    .ThenInclude(u => u.Lectures)
+                        .ThenInclude(a => a.AcademicLecture)
+                            .ThenInclude(a => a.ProfessorAcademicCourse)
+                             .ThenInclude(p => p.AcademicSemester)
+                                .ThenInclude(a => a.Semester)
+            .Include(u => u.Student)
+                .ThenInclude(u => u.Registrations)
+                    .ThenInclude(u => u.Lectures)
+                        .ThenInclude(a => a.AcademicLecture)
+                            .ThenInclude(a => a.ProfessorAcademicCourse)
+                                .ThenInclude(p => p.AcademicCourses)
+            .Where(u => !u.IsDeleted)
+            .FirstOrDefaultAsync(u => u.Id == userId);
+
+        if (student is null || student.IsDeleted)
+            return null;
+
+        return student;
+    }
+
+    private async Task<bool> IsStudentHasActiveRegistrationAsync(Student student)
     {
         var id = await _academicSemesterService.GetCurrentAcademicSemester();
 

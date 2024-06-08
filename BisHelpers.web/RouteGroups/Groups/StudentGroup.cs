@@ -26,6 +26,25 @@ public static class StudentGroup
         .ErrorResponseConfiguration(StatusCodes.Status400BadRequest)
         .UnauthorizedResponseConfiguration();
 
+        builder.MapGet("/GpaAnalysis", [Authorize(Roles = AppRoles.Student)]
+        async (IStudentService studentService, HttpContext context) =>
+        {
+            var studentUser = await studentService.GetDetailedStudentUserByUserIdAsync(context.User.GetUserId());
+
+            if (studentUser is null)
+                return Results.NotFound();
+
+            var gpaAnalysisDto = studentUser.ToGpaAnalysisDto();
+
+            gpaAnalysisDto.Level = studentUser.Student?.DateOfJoin.ToCollegeLevel() ?? string.Empty;
+
+            return Results.Ok(gpaAnalysisDto);
+        })
+        .EndPointConfigurations(Name: "Get GPA Analysis Report", version: Versions.Version1)
+        .OkResponseConfiguration<GpaAnalysisDto>()
+        .ErrorResponseConfiguration(StatusCodes.Status404NotFound, false)
+        .UnauthorizedResponseConfiguration();
+
         return builder;
     }
 }
