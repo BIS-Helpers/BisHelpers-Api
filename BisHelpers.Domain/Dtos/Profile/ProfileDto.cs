@@ -16,5 +16,9 @@ public class ProfileDto
 
     public string? CollegeId { get; set; }
 
+    public double? Gpa { get; set; }
+
+    public int? TotalEarnedHours { get; set; }
+
     public IEnumerable<AcademicLectureWithProfessorAndCourseDto>? RegisteredAcademicLectures { get; set; } = [];
 }

@@ -2,7 +2,7 @@
 public class RegisterAcademicLecturesDto
 {
     [Required]
-    public Double Gpa { get; set; }
+    public double Gpa { get; set; }
 
     [Required]
     public int TotalEarnedHours { get; set; }
