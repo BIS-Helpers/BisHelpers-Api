@@ -35,15 +35,16 @@ public static class AcademicLectureMappingExtension
         return modelList;
     }
 
-    public static IEnumerable<AcademicLectureWithProfessorDto> ToAcademicLectureWithProfessorDto(this IEnumerable<AcademicLecture> DtoList, bool isDetailed = false)
+    public static IEnumerable<AcademicLectureWithProfessorAndCourseDto> ToAcademicLectureWithProfessorDto(this IEnumerable<AcademicLecture> DtoList, bool isDetailed = false)
     {
-        var modelList = DtoList.Select(d => new AcademicLectureWithProfessorDto
+        var modelList = DtoList.Select(d => new AcademicLectureWithProfessorAndCourseDto
         {
             Id = d.Id,
             StartTime = d.StartTime,
             Day = d.Day,
             GroupNumber = d.GroupNumber,
-            Professor = d.ProfessorAcademicCourse?.Professor?.ToProfessorBaseDto(),
+            Professor = d.ProfessorAcademicCourse?.Professor?.ToProfessorBaseDto(isDetailed),
+            AcademicCourse = d.ProfessorAcademicCourse?.AcademicCourses?.MapToDto(isDetailed),
             LastUpdatedBy = isDetailed ? d.LastUpdatedBy?.FullName : null,
             LastUpdatedOn = isDetailed ? d.LastUpdatedOn : null,
             CreatedBy = isDetailed ? d.CreatedBy?.FullName : null,

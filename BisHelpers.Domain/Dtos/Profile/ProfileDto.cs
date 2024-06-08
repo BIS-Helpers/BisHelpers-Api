@@ -16,5 +16,5 @@ public class ProfileDto
 
     public string? CollegeId { get; set; }
 
-    public IEnumerable<AcademicLectureWithProfessorDto>? RegisteredAcademicLectures { get; set; } = [];
+    public IEnumerable<AcademicLectureWithProfessorAndCourseDto>? RegisteredAcademicLectures { get; set; } = [];
 }
