@@ -1,4 +1,6 @@
-﻿namespace BisHelpers.web.Extensions;
+﻿using BisHelpers.web.Filters;
+
+namespace BisHelpers.web.Extensions;
 
 public static class ConfigurationExtensions
 {
@@ -8,7 +10,8 @@ public static class ConfigurationExtensions
         {
             setupAction.SwaggerDoc(Versions.Version1, new() { Title = $"BisHelpers {Versions.Version1}", Version = Versions.Version1 });
             setupAction.SwaggerDoc(Versions.Version2, new() { Title = $"BisHelpers {Versions.Version2}", Version = Versions.Version2 });
-
+            setupAction.SchemaFilter<SwaggerIgnoreFilter>();
+            setupAction.SupportNonNullableReferenceTypes();
             setupAction.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
             {
                 Type = SecuritySchemeType.Http,
