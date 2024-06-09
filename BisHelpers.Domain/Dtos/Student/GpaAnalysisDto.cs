@@ -11,7 +11,7 @@ public class GpaAnalysisDto
 
     public int TotalEarnedHours { get; set; }
 
-    public IEnumerable<AcademicLectureWithProfessorAndCourseDto>? RegisteredAcademicLectures { get; set; } = [];
+    public IEnumerable<AcademicLectureWithProfessorAndCourseDto> RegisteredAcademicLectures { get; set; } = [];
 
     public string MinGradeToSaveGpa { get; set; } = null!;
 

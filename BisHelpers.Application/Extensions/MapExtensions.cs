@@ -16,7 +16,7 @@ public static class MapExtensions
             TotalEarnedHours = model.Student?.Registrations.FirstOrDefault()?.TotalEarnedHours,
             RegisteredAcademicLectures = model.Student?.Registrations?
                 .SelectMany(r => r.Lectures.Select(l => l.AcademicLecture ?? new AcademicLecture()))
-                .ToAcademicLectureWithProfessorDto()
+                .ToAcademicLectureWithProfessorDto() ?? []
         };
 
         return profile;
@@ -32,7 +32,7 @@ public static class MapExtensions
             CollegeId = model.Student?.CollegeId ?? string.Empty,
             RegisteredAcademicLectures = model.Student?.Registrations?
                 .SelectMany(r => r.Lectures.Select(l => l.AcademicLecture ?? new AcademicLecture()))
-                .ToAcademicLectureWithProfessorDto()
+                .ToAcademicLectureWithProfessorDto() ?? []
         };
 
         dto.MinGradeToSaveGpa = model.Student?.Registrations?
