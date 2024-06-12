@@ -1,9 +1,12 @@
-﻿namespace BisHelpers.Application.Services.AuthService;
+﻿using BisHelpers.Application.Services.StudentService;
 
-public class AuthService(UserManager<AppUser> userManager, IUnitOfWork unitOfWork, IOptions<JWT> jwt) : IAuthService
+namespace BisHelpers.Application.Services.AuthService;
+
+public class AuthService(UserManager<AppUser> userManager, IUnitOfWork unitOfWork, IOptions<JWT> jwt, IStudentService studentService) : IAuthService
 {
     private readonly UserManager<AppUser> _userManager = userManager;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
+    private readonly IStudentService _studentService = studentService;
     private readonly JWT _jwt = jwt.Value;
 
     public async Task<Response> RegisterAsync(RegisterDto model)
@@ -98,6 +101,9 @@ public class AuthService(UserManager<AppUser> userManager, IUnitOfWork unitOfWor
             ExpiresOn = jwtSecurityToken.ValidTo,
             AcademicYear = DateTime.UtcNow.Year.GetAcademicYear(),
         };
+
+        if (authModel.Roles.Contains(AppRoles.Student))
+            authModel.HasActiveRegistration = await _studentService.IsStudentHasActiveRegistrationAsync(user.Id);
 
         var isRefreshTokenActive = user.RefreshTokens!.Any(t => t.IsActive);
 

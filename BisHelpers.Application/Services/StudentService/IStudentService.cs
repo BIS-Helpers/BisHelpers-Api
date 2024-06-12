@@ -9,5 +9,7 @@ public interface IStudentService
 
     public Task<AppUser?> GetDetailedStudentUserByUserIdAsync(string userId);
 
+    public Task<bool> IsStudentHasActiveRegistrationAsync(string userId);
+
     public Task<(bool IsSuccess, int? StudentId, string? ErrorMessage)> CreateAsync(RegisterDto model, string userId);
 }
