@@ -2,11 +2,12 @@
 
 namespace BisHelpers.Application.Services.AuthService;
 
-public class AuthService(UserManager<AppUser> userManager, IUnitOfWork unitOfWork, IOptions<JWT> jwt, IStudentService studentService) : IAuthService
+public class AuthService(UserManager<AppUser> userManager, IUnitOfWork unitOfWork, IOptions<JWT> jwt, IStudentService studentService, IAcademicSemesterService academicSemesterService) : IAuthService
 {
     private readonly UserManager<AppUser> _userManager = userManager;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
     private readonly IStudentService _studentService = studentService;
+    private readonly IAcademicSemesterService _academicSemesterService = academicSemesterService;
     private readonly JWT _jwt = jwt.Value;
 
     public async Task<Response> RegisterAsync(RegisterDto model)
@@ -100,6 +101,7 @@ public class AuthService(UserManager<AppUser> userManager, IUnitOfWork unitOfWor
             Token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken),
             ExpiresOn = jwtSecurityToken.ValidTo,
             AcademicYear = DateTime.UtcNow.Year.GetAcademicYear(),
+            AcademicSemester = await _academicSemesterService.GetCurrentAcademicSemesterNameAsync()
         };
 
         if (authModel.Roles.Contains(AppRoles.Student))

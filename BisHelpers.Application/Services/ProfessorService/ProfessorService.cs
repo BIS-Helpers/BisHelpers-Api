@@ -34,7 +34,7 @@ public class ProfessorService(IUnitOfWork unitOfWork, IAcademicSemesterService a
 
     public async Task<IEnumerable<Professor>> GetAllAsync(int courseId)
     {
-        var currentSemesterId = await _academicSemesterService.GetCurrentAcademicSemester();
+        var currentSemesterId = await _academicSemesterService.GetCurrentAcademicSemesterIdAsync();
 
         var professorQueryable = _unitOfWork.Professors.GetQueryable();
 

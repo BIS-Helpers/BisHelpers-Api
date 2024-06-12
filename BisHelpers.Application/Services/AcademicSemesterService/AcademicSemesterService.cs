@@ -3,7 +3,7 @@ public class AcademicSemesterService(IUnitOfWork unitOfWork) : IAcademicSemester
 {
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
 
-    public async Task<int?> GetCurrentAcademicSemester()
+    private async Task<AcademicSemester?> GetCurrentAcademicSemesterAsync()
     {
         var semesterQueryable = _unitOfWork.AcademicSemesters.GetQueryable();
 
@@ -14,9 +14,26 @@ public class AcademicSemesterService(IUnitOfWork unitOfWork) : IAcademicSemester
             .Where(s => s.startDate <= currentDate && s.endDate >= currentDate && !s.IsDeleted)
             .FirstOrDefaultAsync();
 
+        return semester;
+    }
+
+    public async Task<int> GetCurrentAcademicSemesterIdAsync()
+    {
+        var semester = await GetCurrentAcademicSemesterAsync();
+
         if (semester is null)
-            return null;
+            return 0;
 
         return semester.Id;
+    }
+
+    public async Task<string> GetCurrentAcademicSemesterNameAsync()
+    {
+        var semester = await GetCurrentAcademicSemesterAsync();
+
+        if (semester is null || semester.Semester is null)
+            return string.Empty;
+
+        return semester.Semester.Name;
     }
 }

@@ -1,5 +1,7 @@
 ﻿namespace BisHelpers.Application.Services.AcademicSemesterService;
 public interface IAcademicSemesterService
 {
-    public Task<int?> GetCurrentAcademicSemester();
+    public Task<int> GetCurrentAcademicSemesterIdAsync();
+
+    public Task<string> GetCurrentAcademicSemesterNameAsync();
 }

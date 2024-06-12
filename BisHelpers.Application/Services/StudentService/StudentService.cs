@@ -84,10 +84,7 @@ public class StudentService(IUnitOfWork unitOfWork, UserManager<AppUser> userMan
 
     public async Task<bool> IsStudentHasActiveRegistrationAsync(string userId)
     {
-        var id = await _academicSemesterService.GetCurrentAcademicSemester();
-
-        if (id is null)
-            return false;
+        var id = await _academicSemesterService.GetCurrentAcademicSemesterIdAsync();
 
         var student = _unitOfWork.Students.Find(
             predicate: s => !s.IsDeleted && s.UserId == userId,
@@ -97,7 +94,7 @@ public class StudentService(IUnitOfWork unitOfWork, UserManager<AppUser> userMan
             return false;
 
         var result = student.Registrations.SelectMany(r =>
-        r.Lectures.Select(l => l.AcademicLecture?.ProfessorAcademicCourse?.AcademicSemesterId)).Contains((int)id);
+        r.Lectures.Select(l => l.AcademicLecture?.ProfessorAcademicCourse?.AcademicSemesterId)).Contains(id);
 
         return result;
     }
@@ -105,9 +102,9 @@ public class StudentService(IUnitOfWork unitOfWork, UserManager<AppUser> userMan
 
     private async Task<bool> IsStudentHasActiveRegistrationAsync(Student student)
     {
-        var id = await _academicSemesterService.GetCurrentAcademicSemester();
+        var id = await _academicSemesterService.GetCurrentAcademicSemesterIdAsync();
 
-        if (id is null)
+        if (id == 0)
             return false;
 
         var result = student.Registrations.SelectMany(r =>

@@ -6,9 +6,9 @@ public class AcademicCourseService(IUnitOfWork unitOfWork, IAcademicSemesterServ
 
     public async Task<Response<AcademicCourse>> AddProfessorAsync(AddProfessorToAcademicCourseDto dto, string userId)
     {
-        var currentAcademicSemesterId = await _academicSemesterService.GetCurrentAcademicSemester();
+        var currentAcademicSemesterId = await _academicSemesterService.GetCurrentAcademicSemesterIdAsync();
 
-        if (currentAcademicSemesterId is null)
+        if (currentAcademicSemesterId == 0)
             return new Response<AcademicCourse>
             {
                 ErrorBody = new ErrorBody
@@ -33,7 +33,7 @@ public class AcademicCourseService(IUnitOfWork unitOfWork, IAcademicSemesterServ
         var professorAcademicCourse = dto.MapToModel();
 
         professorAcademicCourse.CreatedById = userId;
-        professorAcademicCourse.AcademicSemesterId = (int)currentAcademicSemesterId;
+        professorAcademicCourse.AcademicSemesterId = currentAcademicSemesterId;
 
         foreach (var lecture in professorAcademicCourse.AcademicLectures)
             lecture.CreatedById = userId;

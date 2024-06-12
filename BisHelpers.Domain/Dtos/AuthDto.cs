@@ -10,6 +10,8 @@ public class AuthDto
 
     public string AcademicYear { get; set; } = null!;
 
+    public string AcademicSemester { get; set; } = null!;
+
     public bool? HasActiveRegistration { get; set; }
 
     public IEnumerable<string> Roles { get; set; } = [];
