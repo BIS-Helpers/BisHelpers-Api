@@ -42,9 +42,17 @@ public class ProfessorService(IUnitOfWork unitOfWork, IAcademicSemesterService a
             .Include(p => p.AcademicCourses)
                 .ThenInclude(p => p.AcademicLectures)
             .Where(p =>
-                p.AcademicCourses.Any(a => a.AcademicCourseId == courseId) &&
-                p.AcademicCourses.Any(a => a.AcademicSemesterId == currentSemesterId) && !p.IsDeleted)
-            .ToListAsync();
+                p.AcademicCourses.Any(a => a.AcademicCourseId == courseId && a.AcademicSemesterId == currentSemesterId) && !p.IsDeleted)
+            .Select(p => new Professor
+            {
+                Id = p.Id,
+                FullName = p.FullName,
+                AcademicCourses = p.AcademicCourses
+                .Where(c =>
+                    c.AcademicCourseId == courseId &&
+                    c.AcademicSemesterId == currentSemesterId)
+                .ToList()
+            }).ToListAsync();
 
         return professors;
     }
