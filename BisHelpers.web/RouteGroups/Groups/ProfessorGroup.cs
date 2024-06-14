@@ -35,6 +35,65 @@ public static class ProfessorGroup
         .ErrorResponseConfiguration(StatusCodes.Status400BadRequest)
         .UnauthorizedResponseConfiguration();
 
+        builder.MapPut("/{id}", [Authorize(Roles = AppRoles.Admin)]
+        async (int id, [FromBody] ProfessorUpdateDto dto, IValidator<ProfessorUpdateDto> validator, IProfessorService professorService, HttpContext context) =>
+        {
+            var validationResult = validator.Validate(dto);
+
+            if (!validationResult.IsValid)
+                return Results.BadRequest(new ErrorDto(context)
+                {
+                    StatusCode = 400,
+                    Errors = validationResult.ToErrorList(),
+                });
+
+            var professor = await professorService.GetById(id);
+
+            if (professor is null)
+                return Results.NotFound();
+
+            var updateResponse = await professorService.UpdateAsync(dto, professor, context.User.GetUserId());
+
+            if (!updateResponse.IsSuccess)
+                return Results.BadRequest(new ErrorDto(context)
+                {
+                    Errors = [updateResponse.ErrorBody],
+                    StatusCode = 400,
+                });
+
+            return Results.NoContent();
+        })
+        .EndPointConfigurations(Name: "Update Professor", version: Versions.Version1)
+        .NoContentResponseConfiguration()
+        .ErrorResponseConfiguration(StatusCodes.Status400BadRequest)
+        .ErrorResponseConfiguration(StatusCodes.Status404NotFound, withBody: false)
+        .UnauthorizedResponseConfiguration();
+
+        builder.MapPatch("/{id}", [Authorize(Roles = AppRoles.Admin)]
+        async (int id, IProfessorService professorService, HttpContext context) =>
+        {
+            var professor = await professorService.GetById(id);
+
+            if (professor is null)
+                return Results.NotFound();
+
+            var updateResponse = await professorService.ToggleStatusAsync(professor, context.User.GetUserId());
+
+            if (!updateResponse.IsSuccess)
+                return Results.BadRequest(new ErrorDto(context)
+                {
+                    Errors = [updateResponse.ErrorBody],
+                    StatusCode = 400,
+                });
+
+            return Results.NoContent();
+        })
+        .EndPointConfigurations(Name: "Toggle Status of Professor", version: Versions.Version1)
+        .NoContentResponseConfiguration()
+        .ErrorResponseConfiguration(StatusCodes.Status400BadRequest)
+        .ErrorResponseConfiguration(StatusCodes.Status404NotFound, withBody: false)
+        .UnauthorizedResponseConfiguration();
+
         builder.MapGet("/", [Authorize(Roles = AppRoles.Admin)]
         async (IProfessorService professorService, HttpContext context) =>
         {
@@ -51,7 +110,7 @@ public static class ProfessorGroup
         builder.MapGet("/{id}", [Authorize(Roles = AppRoles.Admin)]
         async (int id, IProfessorService professorService, HttpContext context) =>
         {
-            var professor = await professorService.GetById(id);
+            var professor = await professorService.GetByIdWithAcademicCoursesAndAcademicLecturesAsync(id);
 
             if (professor is null)
                 return Results.NotFound();

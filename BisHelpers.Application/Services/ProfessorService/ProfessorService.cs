@@ -57,7 +57,7 @@ public class ProfessorService(IUnitOfWork unitOfWork, IAcademicSemesterService a
         return professors;
     }
 
-    public async Task<Professor?> GetById(int id)
+    public async Task<Professor?> GetByIdWithAcademicCoursesAndAcademicLecturesAsync(int id)
     {
         var professor = _unitOfWork.Professors.Find(
             predicate: p => p.Id == id && !p.IsDeleted,
@@ -65,4 +65,32 @@ public class ProfessorService(IUnitOfWork unitOfWork, IAcademicSemesterService a
 
         return professor;
     }
+
+    public async Task<Professor?> GetById(int id) =>
+        _unitOfWork.Professors.GetById(id);
+
+    public async Task<Response<Professor>> UpdateAsync(ProfessorUpdateDto dto, Professor professor, string userId)
+    {
+        professor.FullName = dto.FullName;
+        professor.LastUpdatedById = userId;
+        professor.LastUpdatedOn = DateTime.UtcNow;
+
+        _unitOfWork.Professors.Update(professor);
+        await _unitOfWork.CompleteAsync();
+
+        return new Response<Professor> { IsSuccess = true, Model = professor };
+    }
+
+    public async Task<Response<Professor>> ToggleStatusAsync(Professor professor, string userId)
+    {
+        professor.IsDeleted = !professor.IsDeleted;
+        professor.LastUpdatedById = userId;
+        professor.LastUpdatedOn = DateTime.UtcNow;
+
+        _unitOfWork.Professors.Update(professor);
+        await _unitOfWork.CompleteAsync();
+
+        return new Response<Professor> { IsSuccess = true, Model = professor };
+    }
+
 }

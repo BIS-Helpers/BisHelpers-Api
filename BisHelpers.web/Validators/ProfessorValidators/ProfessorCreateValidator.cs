@@ -1,8 +1,8 @@
-﻿namespace BisHelpers.web.Validators;
+﻿namespace BisHelpers.web.Validators.ProfessorValidators;
 
-public class ProfessorValidator : AbstractValidator<ProfessorCreateDto>
+public class ProfessorCreateValidator : AbstractValidator<ProfessorCreateDto>
 {
-    public ProfessorValidator()
+    public ProfessorCreateValidator()
     {
         RuleFor(r => r.FullName)
             .StringCustomValidator(MaximumLength: 200);

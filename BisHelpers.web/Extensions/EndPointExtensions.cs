@@ -20,6 +20,10 @@ public static class EndPointExtensions
 
     public static RouteHandlerBuilder OkResponseConfiguration(this RouteHandlerBuilder route) =>
         route.Produces(StatusCodes.Status200OK);
+
+    public static RouteHandlerBuilder NoContentResponseConfiguration(this RouteHandlerBuilder route) =>
+        route.Produces(StatusCodes.Status204NoContent);
+
     public static RouteHandlerBuilder OkResponseConfiguration<T>(this RouteHandlerBuilder route) =>
         route.Produces<T>(StatusCodes.Status200OK);
 

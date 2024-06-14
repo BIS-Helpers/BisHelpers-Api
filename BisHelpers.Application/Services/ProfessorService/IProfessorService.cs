@@ -9,4 +9,10 @@ public interface IProfessorService
     public Task<IEnumerable<Professor>> GetAllAsync(int courseId);
 
     public Task<Professor?> GetById(int id);
+
+    public Task<Professor?> GetByIdWithAcademicCoursesAndAcademicLecturesAsync(int id);
+
+    public Task<Response<Professor>> UpdateAsync(ProfessorUpdateDto dto, Professor professor, string userId);
+
+    public Task<Response<Professor>> ToggleStatusAsync(Professor professor, string userId);
 }
