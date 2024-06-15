@@ -61,10 +61,10 @@ public static class ProfessorGroup
                     StatusCode = 400,
                 });
 
-            return Results.NoContent();
+            return Results.Ok(updateResponse.Model?.ToProfessorBaseDto());
         })
         .EndPointConfigurations(Name: "Update Professor", version: Versions.Version1)
-        .NoContentResponseConfiguration()
+        .OkResponseConfiguration<ProfessorBaseDto>()
         .ErrorResponseConfiguration(StatusCodes.Status400BadRequest)
         .ErrorResponseConfiguration(StatusCodes.Status404NotFound, withBody: false)
         .UnauthorizedResponseConfiguration();

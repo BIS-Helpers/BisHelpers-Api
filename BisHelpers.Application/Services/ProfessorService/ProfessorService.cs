@@ -26,7 +26,8 @@ public class ProfessorService(IUnitOfWork unitOfWork, IAcademicSemesterService a
         var professorQueryable = _unitOfWork.Professors.GetQueryable();
 
         var professors = await professorQueryable
-            .Where(p => !p.IsDeleted)
+            .Include(p => p.CreatedBy)
+            .Include(p => p.LastUpdatedBy)
             .AsNoTracking().ToListAsync();
 
         return professors;
