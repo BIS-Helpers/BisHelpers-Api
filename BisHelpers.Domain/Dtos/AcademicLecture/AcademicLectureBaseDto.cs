@@ -8,4 +8,8 @@ public class AcademicLectureBaseDto : BaseDto
     public TimeOnly StartTime { get; set; }
 
     public string Day { get; set; } = null!;
+
+    public int Year { get; set; }
+
+    public string Semester { get; set; } = null!;
 }

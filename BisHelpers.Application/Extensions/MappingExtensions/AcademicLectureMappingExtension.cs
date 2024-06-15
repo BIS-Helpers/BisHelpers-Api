@@ -40,6 +40,8 @@ public static class AcademicLectureMappingExtension
         var modelList = DtoList.Select(d => new AcademicLectureWithProfessorAndCourseDto
         {
             Id = d.Id,
+            Semester = d.ProfessorAcademicCourse?.AcademicSemester?.Semester?.Name ?? string.Empty,
+            Year = d.ProfessorAcademicCourse?.AcademicSemester?.endDate.Year ?? 0,
             StartTime = d.StartTime,
             Day = d.Day,
             GroupNumber = d.GroupNumber,

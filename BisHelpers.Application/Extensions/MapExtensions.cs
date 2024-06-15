@@ -57,17 +57,6 @@ public static class MapExtensions
         return user;
     }
 
-    public static Student MapToStudent(this RegisterDto model)
-    {
-        var student = new Student
-        {
-            CollegeId = model.CollegeId,
-            DateOfJoin = model.DateOfJoin,
-        };
-
-        return student;
-    }
-
     #region AcademicCourse
     public static AcademicCourseWithProfessorsDto MapToDto(this AcademicCourse model, bool isDetailed = false)
     {

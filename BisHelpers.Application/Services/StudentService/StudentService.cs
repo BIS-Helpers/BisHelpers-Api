@@ -19,15 +19,8 @@ public class StudentService(IUnitOfWork unitOfWork, UserManager<AppUser> userMan
         return user.Student;
     }
 
-    public async Task<Response> RegisterAcademicLecturesAsync(string userId, RegisterAcademicLecturesDto dto)
+    public async Task<Response> RegisterAcademicLecturesAsync(Student student, RegisterAcademicLecturesDto dto)
     {
-        var student = _unitOfWork.Students.Find(
-            predicate: s => !s.IsDeleted && s.UserId == userId,
-            include: s => s.Include(s => s.Registrations).ThenInclude(r => r.Lectures).ThenInclude(l => l.AcademicLecture).ThenInclude(a => a.ProfessorAcademicCourse)!);
-
-        if (student is null)
-            return new Response { ErrorBody = new ErrorBody { Message = "Can not register academic lectures", Details = ["student not found"] } };
-
         var result = await IsStudentHasActiveRegistrationAsync(student);
 
         if (result)
@@ -51,9 +44,13 @@ public class StudentService(IUnitOfWork unitOfWork, UserManager<AppUser> userMan
         return new Response { IsSuccess = true };
     }
 
-    public async Task<AppUser?> GetDetailedStudentUserByUserIdAsync(string userId)
+    public async Task<AppUser?> GetDetailedStudentUserByUserIdAsync(string userId, bool includeDeleted = false)
     {
-        var student = await _userManager.Users
+        IQueryable<AppUser> studentUserQueryable = _userManager.Users
+            .Include(u => u.Student)
+                .ThenInclude(s => s.CreatedBy)
+            .Include(u => u.Student)
+                .ThenInclude(s => s.LastUpdatedBy)
             .Include(u => u.Student)
                 .ThenInclude(u => u.Registrations)
                     .ThenInclude(u => u.Lectures)
@@ -72,12 +69,13 @@ public class StudentService(IUnitOfWork unitOfWork, UserManager<AppUser> userMan
                     .ThenInclude(u => u.Lectures)
                         .ThenInclude(a => a.AcademicLecture)
                             .ThenInclude(a => a.ProfessorAcademicCourse)
-                                .ThenInclude(p => p.AcademicCourses)
-            .Where(u => !u.IsDeleted)
-            .FirstOrDefaultAsync(u => u.Id == userId);
+                                .ThenInclude(p => p.AcademicCourses);
 
-        if (student is null || student.IsDeleted)
-            return null;
+
+        if (!includeDeleted)
+            studentUserQueryable = studentUserQueryable.Where(u => !u.IsDeleted);
+
+        var student = await studentUserQueryable.FirstOrDefaultAsync(u => u.Id == userId);
 
         return student;
     }
@@ -99,8 +97,7 @@ public class StudentService(IUnitOfWork unitOfWork, UserManager<AppUser> userMan
         return result;
     }
 
-
-    private async Task<bool> IsStudentHasActiveRegistrationAsync(Student student)
+    public async Task<bool> IsStudentHasActiveRegistrationAsync(Student student)
     {
         var id = await _academicSemesterService.GetCurrentAcademicSemesterIdAsync();
 
@@ -108,9 +105,39 @@ public class StudentService(IUnitOfWork unitOfWork, UserManager<AppUser> userMan
             return false;
 
         var result = student.Registrations.SelectMany(r =>
-            r.Lectures.Select(l => l.AcademicLecture?.ProfessorAcademicCourse?.AcademicSemesterId)).Contains((int)id);
+            r.Lectures.Select(l => l.AcademicLecture?.ProfessorAcademicCourse?.AcademicSemesterId)).Contains(id);
 
         return result;
+    }
+
+    public async Task<Response> DropActiveRegistrationAsync(Student student)
+    {
+        var id = await _academicSemesterService.GetCurrentAcademicSemesterIdAsync();
+
+        var activeAcademicRegistration = student.Registrations
+            .FirstOrDefault(r => r.Lectures.Select(l => l.AcademicLecture?.ProfessorAcademicCourse?.AcademicSemesterId).Contains(id));
+
+        if (activeAcademicRegistration is null)
+            return new Response { ErrorBody = new ErrorBody { Message = "Can not drop active registration", Details = ["student not has active registration"] } };
+
+        student.Registrations.Remove(activeAcademicRegistration);
+
+        _unitOfWork.Students.Update(student);
+        await _unitOfWork.CompleteAsync();
+
+        return new Response { IsSuccess = true };
+    }
+
+    public async Task<IEnumerable<AppUser>> GetAllAsync()
+    {
+        var students = await _userManager.Users
+            .Include(u => u.Student)
+                .ThenInclude(s => s.CreatedBy)
+            .Include(u => u.Student)
+                .ThenInclude(s => s.LastUpdatedBy)
+            .ToListAsync();
+
+        return students;
     }
 
     //TODO: Update Return 
