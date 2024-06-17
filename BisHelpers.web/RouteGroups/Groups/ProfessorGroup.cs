@@ -61,7 +61,7 @@ public static class ProfessorGroup
                     StatusCode = 400,
                 });
 
-            return Results.Ok(updateResponse.Model?.ToProfessorBaseDto());
+            return Results.Ok(updateResponse.Model?.ToProfessorBaseDto(true));
         })
         .EndPointConfigurations(Name: "Update Professor", version: Versions.Version1)
         .OkResponseConfiguration<ProfessorBaseDto>()

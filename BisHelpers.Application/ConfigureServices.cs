@@ -1,5 +1,5 @@
 ﻿using BisHelpers.Application.Services.AcademicCourseService;
-using BisHelpers.Application.Services.AcademicSemesterService;
+using BisHelpers.Application.Services.AnnouncementService;
 using BisHelpers.Application.Services.AuthService;
 using BisHelpers.Application.Services.ProfessorService;
 using BisHelpers.Application.Services.StudentService;
@@ -14,6 +14,7 @@ public static class ConfigureServices
         services.AddScoped<IProfessorService, ProfessorService>();
         services.AddScoped<IAcademicCourseService, AcademicCourseService>();
         services.AddScoped<IAcademicSemesterService, AcademicSemesterService>();
+        services.AddScoped<IAnnouncementService, AnnouncementService>();
 
         return services;
     }

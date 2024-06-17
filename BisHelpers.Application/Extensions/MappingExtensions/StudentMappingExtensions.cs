@@ -30,11 +30,11 @@ public static class StudentMappingExtensions
             Gpa = m.Student?.Registrations.FirstOrDefault()?.Gpa ?? 0,
             TotalEarnedHours = m.Student?.Registrations.FirstOrDefault()?.TotalEarnedHours ?? 0,
 
-            LastUpdatedBy = withBaseDto ? m.LastUpdatedBy?.FullName : null,
-            LastUpdatedOn = withBaseDto ? m.LastUpdatedOn : null,
-            CreatedBy = withBaseDto ? m.CreatedBy?.FullName : null,
-            CreatedOn = withBaseDto ? m.CreatedOn : null,
-            IsDeleted = withBaseDto ? m.IsDeleted : null,
+            LastUpdatedBy = withBaseDto ? m.Student?.LastUpdatedBy?.FullName : null,
+            LastUpdatedOn = withBaseDto ? m.Student?.LastUpdatedOn.AsUtcTime() : null,
+            CreatedBy = withBaseDto ? m.Student?.CreatedBy?.FullName : null,
+            CreatedOn = withBaseDto ? m.Student?.CreatedOn.AsUtcTime() : null,
+            IsDeleted = withBaseDto ? m.Student?.IsDeleted : null,
         });
 
         return modelListDto;
@@ -58,11 +58,11 @@ public static class StudentMappingExtensions
                 .SelectMany(r => r.Lectures.Select(l => l.AcademicLecture ?? new AcademicLecture()))
                 .ToAcademicLectureWithProfessorDto() ?? [],
 
-            LastUpdatedBy = withBaseDto ? model.LastUpdatedBy?.FullName : null,
-            LastUpdatedOn = withBaseDto ? model.LastUpdatedOn : null,
-            CreatedBy = withBaseDto ? model.CreatedBy?.FullName : null,
-            CreatedOn = withBaseDto ? model.CreatedOn : null,
-            IsDeleted = withBaseDto ? model.IsDeleted : null,
+            LastUpdatedBy = withBaseDto ? model.Student?.LastUpdatedBy?.FullName : null,
+            LastUpdatedOn = withBaseDto ? model.Student?.LastUpdatedOn.AsUtcTime() : null,
+            CreatedBy = withBaseDto ? model.Student?.CreatedBy?.FullName : null,
+            CreatedOn = withBaseDto ? model.Student?.CreatedOn.AsUtcTime() : null,
+            IsDeleted = withBaseDto ? model.Student?.IsDeleted : null,
         };
 
         return modelDto;

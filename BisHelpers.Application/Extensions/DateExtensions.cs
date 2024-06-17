@@ -19,6 +19,12 @@ public static class DateExtensions
         return $"{yearsDiff}";
     }
 
+    public static DateTime? AsUtcTime(this DateTime? dateTime) =>
+        dateTime is not null ? DateTime.SpecifyKind((DateTime)dateTime, DateTimeKind.Utc) : dateTime;
+
+    public static DateTime AsUtcTime(this DateTime dateTime) =>
+        DateTime.SpecifyKind(dateTime, DateTimeKind.Utc);
+
     public static string GetAcademicYear(this int year) =>
         string.Join('/', year.ToString(), (year - 1).ToString());
 

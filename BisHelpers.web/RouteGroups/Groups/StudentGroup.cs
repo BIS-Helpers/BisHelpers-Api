@@ -28,7 +28,7 @@ public static class StudentGroup
         .ErrorResponseConfiguration(StatusCodes.Status404NotFound, withBody: false)
         .UnauthorizedResponseConfiguration();
 
-        builder.MapDelete("/DropActiveRegistration/{id}", [Authorize]
+        builder.MapDelete("/DropActiveRegistration/{studentUserId}", [Authorize]
         async (string studentUserId, IStudentService studentService, HttpContext context) =>
         {
             var studentUser = await studentService.GetDetailedStudentUserByUserIdAsync(studentUserId);
@@ -73,7 +73,7 @@ public static class StudentGroup
         .ErrorResponseConfiguration(StatusCodes.Status404NotFound, false)
         .UnauthorizedResponseConfiguration();
 
-        builder.MapGet("/{id}", [Authorize(Roles = AppRoles.Admin)]
+        builder.MapGet("/{studentUserId}", [Authorize(Roles = AppRoles.Admin)]
         async (string studentUserId, IStudentService studentService, HttpContext context) =>
         {
             var studentUser = await studentService.GetDetailedStudentUserByUserIdAsync(studentUserId, true);
@@ -99,7 +99,7 @@ public static class StudentGroup
 
             return Results.Ok(professorsDto);
         })
-        .EndPointConfigurations(Name: "Get All Studenta", version: Versions.Version1)
+        .EndPointConfigurations(Name: "Get All Student", version: Versions.Version1)
         .OkResponseConfiguration<IEnumerable<StudentBaseDto>>()
         .UnauthorizedResponseConfiguration();
 

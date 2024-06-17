@@ -10,6 +10,7 @@ public class UnitOfWork(ApplicationDbContext context) : IUnitOfWork
     public IBaseRepository<AcademicCourse> AcademicCourses => new BaseRepository<AcademicCourse>(_context);
     public IBaseRepository<AcademicLecture> AcademicLectures => new BaseRepository<AcademicLecture>(_context);
     public IBaseRepository<Semester> Semesters => new BaseRepository<Semester>(_context);
+    public IBaseRepository<Announcement> Announcements => new BaseRepository<Announcement>(_context);
     public IBaseRepository<AcademicSemester> AcademicSemesters => new BaseRepository<AcademicSemester>(_context);
 
     public async Task BeginTransaction() =>

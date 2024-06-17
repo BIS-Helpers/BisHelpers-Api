@@ -118,7 +118,7 @@ public class StudentService(IUnitOfWork unitOfWork, UserManager<AppUser> userMan
             .FirstOrDefault(r => r.Lectures.Select(l => l.AcademicLecture?.ProfessorAcademicCourse?.AcademicSemesterId).Contains(id));
 
         if (activeAcademicRegistration is null)
-            return new Response { ErrorBody = new ErrorBody { Message = "Can not drop active registration", Details = ["student not has active registration"] } };
+            return new Response { ErrorBody = new ErrorBody { Message = "Can not drop active registration", Details = ["student has not active registration"] } };
 
         student.Registrations.Remove(activeAcademicRegistration);
 
@@ -135,6 +135,8 @@ public class StudentService(IUnitOfWork unitOfWork, UserManager<AppUser> userMan
                 .ThenInclude(s => s.CreatedBy)
             .Include(u => u.Student)
                 .ThenInclude(s => s.LastUpdatedBy)
+            .Include(u => u.Student)
+                .ThenInclude(s => s.Registrations)
             .ToListAsync();
 
         return students;

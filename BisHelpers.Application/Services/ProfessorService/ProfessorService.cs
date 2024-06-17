@@ -67,8 +67,17 @@ public class ProfessorService(IUnitOfWork unitOfWork, IAcademicSemesterService a
         return professor;
     }
 
-    public async Task<Professor?> GetById(int id) =>
-        _unitOfWork.Professors.GetById(id);
+    public async Task<Professor?> GetById(int id)
+    {
+        var professorQueryable = _unitOfWork.Professors.GetQueryable();
+
+        var professors = await professorQueryable
+            .Include(p => p.CreatedBy)
+            .Include(p => p.LastUpdatedBy)
+            .AsNoTracking().FirstOrDefaultAsync(p => p.Id == id);
+
+        return professors;
+    }
 
     public async Task<Response<Professor>> UpdateAsync(ProfessorUpdateDto dto, Professor professor, string userId)
     {

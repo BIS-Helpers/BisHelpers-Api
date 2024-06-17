@@ -18,5 +18,7 @@ public class AcademicLecture : BaseEntity
     public int ProfessorAcademicCourseId { get; set; }
 
     public ICollection<RegistrationLecture> Registrations { get; set; } = [];
+
+    public ICollection<Announcement> Announcements { get; set; } = [];
     #endregion
 }

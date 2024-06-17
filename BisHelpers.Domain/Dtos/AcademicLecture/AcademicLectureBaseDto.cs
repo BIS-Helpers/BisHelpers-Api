@@ -9,7 +9,7 @@ public class AcademicLectureBaseDto : BaseDto
 
     public string Day { get; set; } = null!;
 
-    public int Year { get; set; }
+    public string Year { get; set; } = null!;
 
     public string Semester { get; set; } = null!;
 }

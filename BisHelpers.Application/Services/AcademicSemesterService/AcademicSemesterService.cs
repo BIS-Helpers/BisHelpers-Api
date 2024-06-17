@@ -11,7 +11,7 @@ public class AcademicSemesterService(IUnitOfWork unitOfWork) : IAcademicSemester
 
         var semester = await semesterQueryable
             .Include(s => s.Semester)
-            .Where(s => s.startDate <= currentDate && s.endDate >= currentDate && !s.IsDeleted)
+            .Where(s => s.StartDate <= currentDate && s.EndDate >= currentDate && !s.IsDeleted)
             .FirstOrDefaultAsync();
 
         return semester;

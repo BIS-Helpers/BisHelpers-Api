@@ -13,9 +13,9 @@ public static class ProfessorMappingExtension
             .ToAcademicLectureBaseDto(),
 
             LastUpdatedBy = isDetailed ? m.LastUpdatedBy?.FullName : null,
-            LastUpdatedOn = isDetailed ? m.LastUpdatedOn : null,
+            LastUpdatedOn = isDetailed ? m.LastUpdatedOn.AsUtcTime() : null,
             CreatedBy = isDetailed ? m.CreatedBy?.FullName : null,
-            CreatedOn = isDetailed ? m.CreatedOn : null,
+            CreatedOn = isDetailed ? m.CreatedOn.AsUtcTime() : null,
             IsDeleted = isDetailed ? m.IsDeleted : null,
         });
 
@@ -30,9 +30,9 @@ public static class ProfessorMappingExtension
             FullName = m.FullName,
 
             LastUpdatedBy = isDetailed ? m.LastUpdatedBy?.FullName : null,
-            LastUpdatedOn = isDetailed ? m.LastUpdatedOn : null,
+            LastUpdatedOn = isDetailed ? m.LastUpdatedOn.AsUtcTime() : null,
             CreatedBy = isDetailed ? m.CreatedBy?.FullName : null,
-            CreatedOn = isDetailed ? m.CreatedOn : null,
+            CreatedOn = isDetailed ? m.CreatedOn.AsUtcTime() : null,
             IsDeleted = isDetailed ? m.IsDeleted : null,
         });
 
@@ -50,9 +50,9 @@ public static class ProfessorMappingExtension
             .ToAcademicLectureBaseDto(),
 
             LastUpdatedBy = isDetailed ? model.LastUpdatedBy?.FullName : null,
-            LastUpdatedOn = isDetailed ? model.LastUpdatedOn : null,
+            LastUpdatedOn = isDetailed ? model.LastUpdatedOn.AsUtcTime() : null,
             CreatedBy = isDetailed ? model.CreatedBy?.FullName : null,
-            CreatedOn = isDetailed ? model.CreatedOn : null,
+            CreatedOn = isDetailed ? model.CreatedOn.AsUtcTime() : null,
             IsDeleted = isDetailed ? model.IsDeleted : null,
         };
 
@@ -67,9 +67,9 @@ public static class ProfessorMappingExtension
             FullName = model.FullName,
 
             LastUpdatedBy = isDetailed ? model.LastUpdatedBy?.FullName : null,
-            LastUpdatedOn = isDetailed ? model.LastUpdatedOn : null,
+            LastUpdatedOn = isDetailed ? model.LastUpdatedOn.AsUtcTime() : null,
             CreatedBy = isDetailed ? model.CreatedBy?.FullName : null,
-            CreatedOn = isDetailed ? model.CreatedOn : null,
+            CreatedOn = isDetailed ? model.CreatedOn.AsUtcTime() : null,
             IsDeleted = isDetailed ? model.IsDeleted : null,
         };
 

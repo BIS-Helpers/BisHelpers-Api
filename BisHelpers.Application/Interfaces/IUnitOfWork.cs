@@ -1,5 +1,4 @@
 ﻿using BisHelpers.Application.Interfaces.Repositories;
-using BisHelpers.Domain.Entities.RelatedData;
 
 namespace BisHelpers.Application.Interfaces;
 
@@ -10,6 +9,7 @@ public interface IUnitOfWork
     public IBaseRepository<AcademicCourse> AcademicCourses { get; }
     public IBaseRepository<AcademicLecture> AcademicLectures { get; }
     public IBaseRepository<Semester> Semesters { get; }
+    public IBaseRepository<Announcement> Announcements { get; }
     public IBaseRepository<AcademicSemester> AcademicSemesters { get; }
 
     public Task BeginTransaction();

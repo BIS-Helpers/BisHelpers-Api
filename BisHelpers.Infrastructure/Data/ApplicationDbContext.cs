@@ -12,6 +12,7 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     public DbSet<Semester> Semesters { get; set; }
     public DbSet<AcademicLecture> AcademicLectures { get; set; }
     public DbSet<AcademicCourse> AcademicCourses { get; set; }
+    public DbSet<Announcement> Announcements { get; set; }
     public DbSet<Professor> Professors { get; set; }
     public DbSet<ProfessorAcademicCourse> ProfessorsAcademicCourses { get; set; }
 
@@ -62,6 +63,18 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
             .WithMany()
             .HasForeignKey(u => u.CreatedById)
             .OnDelete(DeleteBehavior.NoAction);
+
+        builder.Entity<AcademicRegistration>()
+            .HasMany(u => u.Lectures)
+            .WithOne(a => a.AcademicRegistration)
+            .HasForeignKey(u => u.AcademicRegistrationId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Entity<Student>()
+            .HasMany(u => u.Registrations)
+            .WithOne(a => a.Student)
+            .HasForeignKey(u => u.StudentId)
+            .OnDelete(DeleteBehavior.Cascade);
         #endregion
 
         #region DataSeeding
