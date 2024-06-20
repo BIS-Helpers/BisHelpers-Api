@@ -8,5 +8,5 @@ public class Announcement : BaseEntity
     public string Content { get; set; } = null!;
 
     public AcademicLecture? AcademicLecture { get; set; }
-    public int AcademicLectureId { get; set; }
+    public int? AcademicLectureId { get; set; }
 }

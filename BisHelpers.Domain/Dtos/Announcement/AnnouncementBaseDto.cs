@@ -7,5 +7,5 @@ public class AnnouncementBaseDto : BaseDto
 
     public string Content { get; set; } = null!;
 
-    public AcademicLectureWithProfessorAndCourseDto AcademicLecture { get; set; } = new();
+    public AcademicLectureWithProfessorAndCourseDto? AcademicLecture { get; set; }
 }

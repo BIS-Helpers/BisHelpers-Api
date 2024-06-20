@@ -73,6 +73,7 @@ public static class MapExtensions
         return modelDto;
     }
 
+
     public static IEnumerable<AcademicCourseBaseDto> MapToDto(this IEnumerable<AcademicCourse> modelList)
     {
         var modelListDto = modelList.Select(m => new AcademicCourseBaseDto

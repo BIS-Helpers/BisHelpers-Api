@@ -1,0 +1,391 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="BisHelpers.Domain.Entities.AppUser">
+    <Position X="7" Y="14.5" Width="1.5" />
+    <AssociationLine Name="LastUpdatedBy" Type="BisHelpers.Domain.Entities.AppUser" ManuallyRouted="true">
+      <Path>
+        <Point X="7.532" Y="17.656" />
+        <Point X="7.532" Y="17.906" />
+        <Point X="7.978" Y="17.906" />
+        <Point X="7.978" Y="17.656" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQCIAAICAAEAAAAQCQAACAAAAAABAAQAAAAE=</HashCode>
+      <FileName>Entities\AppUser.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="LastUpdatedBy" />
+      <Property Name="CreatedBy" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Microsoft.AspNetCore.Identity.IdentityUser">
+    <Position X="6.5" Y="12.5" Width="2.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Microsoft.AspNetCore.Identity.IdentityUser&lt;TKey&gt;">
+    <Position X="6.5" Y="7.5" Width="2.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="BisHelpers.Domain.Entities.Student">
+    <Position X="9.5" Y="4.75" Width="1.5" />
+    <InheritanceLine Type="BisHelpers.Domain.BaseEntity" ManuallyRouted="true">
+      <Path>
+        <Point X="15.75" Y="2.623" />
+        <Point X="15.75" Y="4.156" />
+        <Point X="14.867" Y="4.156" Type="JumpStart" />
+        <Point X="14.7" Y="4.156" Type="JumpEnd" />
+        <Point X="14.506" Y="4.156" Type="JumpStart" />
+        <Point X="14.339" Y="4.156" Type="JumpEnd" />
+        <Point X="13.927" Y="4.156" Type="JumpStart" />
+        <Point X="13.76" Y="4.156" Type="JumpEnd" />
+        <Point X="13.458" Y="4.156" Type="JumpStart" />
+        <Point X="13.292" Y="4.156" Type="JumpEnd" />
+        <Point X="10.25" Y="4.156" />
+        <Point X="10.25" Y="4.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAADAIAAAAAAAAAAAAAAAAgAEAAAAAAAACAAAAAAAAA=</HashCode>
+      <FileName>Entities\Student.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="User" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Registrations" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="BisHelpers.Domain.BaseEntity">
+    <Position X="15" Y="0.75" Width="1.5" />
+    <AssociationLine Name="CreatedBy" Type="BisHelpers.Domain.Entities.AppUser" ManuallyRouted="true">
+      <Path>
+        <Point X="15" Y="1.686" />
+        <Point X="14.423" Y="1.686" />
+        <Point X="14.423" Y="15.357" />
+        <Point X="10.052" Y="15.357" Type="JumpStart" />
+        <Point X="9.885" Y="15.357" Type="JumpEnd" />
+        <Point X="8.5" Y="15.357" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="LastUpdatedBy" Type="BisHelpers.Domain.Entities.AppUser" ManuallyRouted="true">
+      <Path>
+        <Point X="15" Y="2.186" />
+        <Point X="14.784" Y="2.186" />
+        <Point X="14.784" Y="16.997" />
+        <Point X="8.5" Y="16.997" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAACQAACAAAAAABAAQAAAAE=</HashCode>
+      <FileName>BaseEntity.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="CreatedBy" />
+      <Property Name="LastUpdatedBy" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BisHelpers.Domain.Entities.AcademicLecture">
+    <Position X="5.5" Y="4.75" Width="2.25" />
+    <InheritanceLine Type="BisHelpers.Domain.BaseEntity" ManuallyRouted="true">
+      <Path>
+        <Point X="15.75" Y="2.623" />
+        <Point X="15.75" Y="3.813" />
+        <Point X="14.867" Y="3.813" Type="JumpStart" />
+        <Point X="14.7" Y="3.813" Type="JumpEnd" />
+        <Point X="14.506" Y="3.813" Type="JumpStart" />
+        <Point X="14.339" Y="3.813" Type="JumpEnd" />
+        <Point X="13.927" Y="3.813" Type="JumpStart" />
+        <Point X="13.76" Y="3.813" Type="JumpEnd" />
+        <Point X="9.33" Y="3.813" Type="JumpStart" />
+        <Point X="9.164" Y="3.813" Type="JumpEnd" />
+        <Point X="7.599" Y="3.813" Type="JumpStart" />
+        <Point X="7.432" Y="3.813" Type="JumpEnd" />
+        <Point X="7.204" Y="3.813" Type="JumpStart" />
+        <Point X="7.038" Y="3.813" Type="JumpEnd" />
+        <Point X="6.81" Y="3.813" Type="JumpStart" />
+        <Point X="6.643" Y="3.813" Type="JumpEnd" />
+        <Point X="6.411" Y="3.813" Type="JumpStart" />
+        <Point X="6.245" Y="3.813" Type="JumpEnd" />
+        <Point X="5.883" Y="3.813" />
+        <Point X="5.883" Y="4.75" />
+      </Path>
+    </InheritanceLine>
+    <AssociationLine Name="ProfessorAcademicCourse" Type="BisHelpers.Domain.Entities.ProfessorAcademicCourse" ManuallyRouted="true">
+      <Path>
+        <Point X="6.727" Y="4.75" />
+        <Point X="6.727" Y="3.626" />
+        <Point X="7.038" Y="3.626" Type="JumpStart" />
+        <Point X="7.204" Y="3.626" Type="JumpEnd" />
+        <Point X="7.432" Y="3.626" Type="JumpStart" />
+        <Point X="7.599" Y="3.626" Type="JumpEnd" />
+        <Point X="9.164" Y="3.626" Type="JumpStart" />
+        <Point X="9.33" Y="3.626" Type="JumpEnd" />
+        <Point X="13.76" Y="3.626" Type="JumpStart" />
+        <Point X="13.927" Y="3.626" Type="JumpEnd" />
+        <Point X="14.339" Y="3.626" Type="JumpStart" />
+        <Point X="14.506" Y="3.626" Type="JumpEnd" />
+        <Point X="14.7" Y="3.626" Type="JumpStart" />
+        <Point X="14.867" Y="3.626" Type="JumpEnd" />
+        <Point X="15.667" Y="3.626" Type="JumpStart" />
+        <Point X="15.833" Y="3.626" Type="JumpEnd" />
+        <Point X="17.823" Y="3.626" Type="JumpStart" />
+        <Point X="17.99" Y="3.626" Type="JumpEnd" />
+        <Point X="23.135" Y="3.626" Type="JumpStart" />
+        <Point X="23.302" Y="3.626" Type="JumpEnd" />
+        <Point X="24.281" Y="3.626" />
+        <Point X="24.281" Y="4.75" />
+      </Path>
+    </AssociationLine>
+    <AssociationLine Name="Announcements" Type="BisHelpers.Domain.Entities.Announcement" ManuallyRouted="true">
+      <Path>
+        <Point X="7.516" Y="4.75" />
+        <Point X="7.516" Y="3.211" />
+        <Point X="9.164" Y="3.211" Type="JumpStart" />
+        <Point X="9.33" Y="3.211" Type="JumpEnd" />
+        <Point X="13.76" Y="3.211" Type="JumpStart" />
+        <Point X="13.927" Y="3.211" Type="JumpEnd" />
+        <Point X="14.339" Y="3.211" Type="JumpStart" />
+        <Point X="14.506" Y="3.211" Type="JumpEnd" />
+        <Point X="14.7" Y="3.211" Type="JumpStart" />
+        <Point X="14.867" Y="3.211" Type="JumpEnd" />
+        <Point X="15.667" Y="3.211" Type="JumpStart" />
+        <Point X="15.833" Y="3.211" Type="JumpEnd" />
+        <Point X="17.906" Y="3.211" />
+        <Point X="17.906" Y="4.75" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAACAoAAIBAAAAAAAAAAAAAAIAAAAAAAAgAAAQAAAAA=</HashCode>
+      <FileName>Entities\AcademicLecture.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ProfessorAcademicCourse" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="Announcements" />
+      <Property Name="Registrations" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="BisHelpers.Domain.Entities.AcademicRegistration">
+    <Position X="12.5" Y="4.75" Width="1.75" />
+    <InheritanceLine Type="BisHelpers.Domain.BaseEntity" ManuallyRouted="true">
+      <Path>
+        <Point X="15.75" Y="2.623" />
+        <Point X="15.75" Y="3.985" />
+        <Point X="14.867" Y="3.985" Type="JumpStart" />
+        <Point X="14.7" Y="3.985" Type="JumpEnd" />
+        <Point X="14.506" Y="3.985" Type="JumpStart" />
+        <Point X="14.339" Y="3.985" Type="JumpEnd" />
+        <Point X="13.927" Y="3.985" Type="JumpStart" />
+        <Point X="13.76" Y="3.985" Type="JumpEnd" />
+        <Point X="13.375" Y="3.985" />
+        <Point X="13.375" Y="4.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAACAAIAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKAAA=</HashCode>
+      <FileName>Entities\AcademicRegistration.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Student" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BisHelpers.Domain.Entities.AcademicSemester">
+    <Position X="15" Y="4.75" Width="1.75" />
+    <InheritanceLine Type="BisHelpers.Domain.BaseEntity" ManuallyRouted="true" FixedToPoint="true">
+      <Path>
+        <Point X="15.75" Y="2.623" />
+        <Point X="15.75" Y="4.08" />
+        <Point X="15.75" Y="4.08" />
+        <Point X="15.75" Y="4.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAIAAAAAAgAAAAAIAAAAAAAEAAAAA=</HashCode>
+      <FileName>Entities\AcademicSemester.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Semester" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BisHelpers.Domain.Entities.Announcement">
+    <Position X="17.5" Y="4.75" Width="1.75" />
+    <InheritanceLine Type="BisHelpers.Domain.BaseEntity" ManuallyRouted="true">
+      <Path>
+        <Point X="15.75" Y="2.623" />
+        <Point X="15.75" Y="3.82" />
+        <Point X="17.823" Y="3.82" Type="JumpStart" />
+        <Point X="17.99" Y="3.82" Type="JumpEnd" />
+        <Point X="18.375" Y="3.82" />
+        <Point X="18.375" Y="4.75" />
+      </Path>
+    </InheritanceLine>
+    <AssociationLine Name="AcademicLecture" Type="BisHelpers.Domain.Entities.AcademicLecture" ManuallyRouted="true" FixedFromPoint="true" FixedToPoint="true">
+      <Path>
+        <Point X="18.25" Y="4.75" />
+        <Point X="18.25" Y="4.321" />
+        <Point X="17.99" Y="4.321" Type="JumpStart" />
+        <Point X="17.823" Y="4.321" Type="JumpEnd" />
+        <Point X="15.833" Y="4.321" Type="JumpStart" />
+        <Point X="15.667" Y="4.321" Type="JumpEnd" />
+        <Point X="14.867" Y="4.321" Type="JumpStart" />
+        <Point X="14.7" Y="4.321" Type="JumpEnd" />
+        <Point X="14.506" Y="4.321" Type="JumpStart" />
+        <Point X="14.339" Y="4.321" Type="JumpEnd" />
+        <Point X="13.927" Y="4.321" Type="JumpStart" />
+        <Point X="13.76" Y="4.321" Type="JumpEnd" />
+        <Point X="13.458" Y="4.321" Type="JumpStart" />
+        <Point X="13.292" Y="4.321" Type="JumpEnd" />
+        <Point X="10.333" Y="4.321" Type="JumpStart" />
+        <Point X="10.167" Y="4.321" Type="JumpEnd" />
+        <Point X="9.33" Y="4.321" Type="JumpStart" />
+        <Point X="9.164" Y="4.321" Type="JumpEnd" />
+        <Point X="7.599" Y="4.321" Type="JumpStart" />
+        <Point X="7.432" Y="4.321" Type="JumpEnd" />
+        <Point X="7.204" Y="4.321" Type="JumpStart" />
+        <Point X="7.038" Y="4.321" Type="JumpEnd" />
+        <Point X="6.81" Y="4.321" Type="JumpStart" />
+        <Point X="6.643" Y="4.321" Type="JumpEnd" />
+        <Point X="6.411" Y="4.321" Type="JumpStart" />
+        <Point X="6.245" Y="4.321" Type="JumpEnd" />
+        <Point X="5.966" Y="4.321" Type="JumpStart" />
+        <Point X="5.799" Y="4.321" Type="JumpEnd" />
+        <Point X="5.125" Y="4.321" />
+        <Point X="5.125" Y="5.813" />
+        <Point X="5.5" Y="5.813" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAgIAAEAAAAAAAABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Announcement.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="AcademicLecture" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BisHelpers.Domain.Entities.Professor">
+    <Position X="20" Y="4.75" Width="1.75" />
+    <InheritanceLine Type="BisHelpers.Domain.BaseEntity" ManuallyRouted="true">
+      <Path>
+        <Point X="15.75" Y="2.623" />
+        <Point X="15.75" Y="4.143" />
+        <Point X="17.823" Y="4.143" Type="JumpStart" />
+        <Point X="17.99" Y="4.143" Type="JumpEnd" />
+        <Point X="18.292" Y="4.143" Type="JumpStart" />
+        <Point X="18.458" Y="4.143" Type="JumpEnd" />
+        <Point X="20.875" Y="4.143" />
+        <Point X="20.875" Y="4.75" />
+      </Path>
+    </InheritanceLine>
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\Professor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BisHelpers.Domain.Entities.ProfessorAcademicCourse">
+    <Position X="22.75" Y="4.75" Width="2" />
+    <InheritanceLine Type="BisHelpers.Domain.BaseEntity" ManuallyRouted="true">
+      <Path>
+        <Point X="15.75" Y="2.623" />
+        <Point X="15.75" Y="3.986" />
+        <Point X="17.823" Y="3.986" Type="JumpStart" />
+        <Point X="17.99" Y="3.986" Type="JumpEnd" />
+        <Point X="18.292" Y="3.986" Type="JumpStart" />
+        <Point X="18.458" Y="3.986" Type="JumpEnd" />
+        <Point X="23.135" Y="3.986" Type="JumpStart" />
+        <Point X="23.302" Y="3.986" Type="JumpEnd" />
+        <Point X="23.75" Y="3.986" />
+        <Point X="23.75" Y="4.75" />
+      </Path>
+    </InheritanceLine>
+    <AssociationLine Name="AcademicLectures" Type="BisHelpers.Domain.Entities.AcademicLecture" ManuallyRouted="true">
+      <Path>
+        <Point X="23.219" Y="4.75" />
+        <Point X="23.219" Y="3.024" />
+        <Point X="15.833" Y="3.024" Type="JumpStart" />
+        <Point X="15.667" Y="3.024" Type="JumpEnd" />
+        <Point X="14.867" Y="3.024" Type="JumpStart" />
+        <Point X="14.7" Y="3.024" Type="JumpEnd" />
+        <Point X="14.506" Y="3.024" Type="JumpStart" />
+        <Point X="14.339" Y="3.024" Type="JumpEnd" />
+        <Point X="13.927" Y="3.024" Type="JumpStart" />
+        <Point X="13.76" Y="3.024" Type="JumpEnd" />
+        <Point X="9.33" Y="3.024" Type="JumpStart" />
+        <Point X="9.164" Y="3.024" Type="JumpEnd" />
+        <Point X="7.204" Y="3.024" Type="JumpStart" />
+        <Point X="7.038" Y="3.024" Type="JumpEnd" />
+        <Point X="6.328" Y="3.024" />
+        <Point X="6.328" Y="4.75" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AABCgAAAAAACAAAAAAAAAACAAAAgAAAACAAABAAAAAA=</HashCode>
+      <FileName>Entities\ProfessorAcademicCourse.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="AcademicCourses" />
+      <Property Name="AcademicSemester" />
+      <Property Name="Professor" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Property Name="AcademicLectures" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="BisHelpers.Domain.Entities.RelatedData.AcademicCourse">
+    <Position X="26" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAABQAAAgAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\RelatedData\AcademicCourse.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="Professors" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="BisHelpers.Domain.Entities.RelatedData.Semester">
+    <Position X="15.25" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\RelatedData\Semester.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BisHelpers.Domain.Entities.RefreshToken">
+    <Position X="3.75" Y="15" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAADAAAIAAAAAAEAEAAAAAgAAAACAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Entities\RefreshToken.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="User" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BisHelpers.Domain.Entities.RegistrationLecture">
+    <Position X="9.75" Y="0.5" Width="2" />
+    <AssociationLine Name="AcademicLecture" Type="BisHelpers.Domain.Entities.AcademicLecture" ManuallyRouted="true">
+      <Path>
+        <Point X="9.969" Y="1.796" />
+        <Point X="9.969" Y="2.328" />
+        <Point X="9.247" Y="2.328" />
+        <Point X="9.247" Y="6.687" />
+        <Point X="7.75" Y="6.687" />
+      </Path>
+    </AssociationLine>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAQABAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Entities\RegistrationLecture.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="AcademicRegistration" />
+      <Property Name="AcademicLecture" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Microsoft.AspNetCore.Identity.IdentityRole">
+    <Position X="10.5" Y="10.25" Width="2.25" />
+    <TypeIdentifier />
+  </Class>
+  <Class Name="Microsoft.AspNetCore.Identity.IdentityRole&lt;TKey&gt;">
+    <Position X="10.5" Y="7.25" Width="2.25" />
+    <TypeIdentifier />
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
