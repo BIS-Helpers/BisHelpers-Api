@@ -91,6 +91,14 @@ public class AnnouncementService(IUnitOfWork unitOfWork, IAcademicSemesterServic
         return new Response<Announcement> { IsSuccess = true, Model = announcement };
     }
 
+    public async Task<Response> DeleteAsync(Announcement announcement)
+    {
+        _unitOfWork.Announcements.Remove(announcement);
+        await _unitOfWork.CompleteAsync();
+
+        return new Response { IsSuccess = true };
+    }
+
     public async Task<IEnumerable<Announcement>> GetAllAsync()
     {
         var announcementQueryable = _unitOfWork.Announcements.GetQueryable();

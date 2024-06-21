@@ -7,7 +7,7 @@ public class StudentService(IUnitOfWork unitOfWork, UserManager<AppUser> userMan
     private readonly UserManager<AppUser> _userManager = userManager;
     private readonly IAcademicSemesterService _academicSemesterService = academicSemesterService;
 
-    public async Task<Student?> GetStudentIdByUserIdAsync(string userId)
+    public async Task<Student?> GetStudentByUserIdAsync(string userId)
     {
         var user = await _userManager.Users
             .Include(u => u.Student)
@@ -142,6 +142,17 @@ public class StudentService(IUnitOfWork unitOfWork, UserManager<AppUser> userMan
         return students;
     }
 
+    public async Task<Response> ToggleStatusAsync(Student student, string userId)
+    {
+        student.IsDeleted = !student.IsDeleted;
+        student.LastUpdatedById = userId;
+        student.LastUpdatedOn = DateTime.UtcNow;
+
+        _unitOfWork.Students.Update(student);
+        await _unitOfWork.CompleteAsync();
+
+        return new Response { IsSuccess = true };
+    }
     //TODO: Update Return 
     public async Task<(bool IsSuccess, int? StudentId, string? ErrorMessage)> CreateAsync(RegisterDto model, string userId)
     {

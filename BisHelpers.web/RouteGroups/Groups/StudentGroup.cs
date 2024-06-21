@@ -103,6 +103,30 @@ public static class StudentGroup
         .OkResponseConfiguration<IEnumerable<StudentBaseDto>>()
         .UnauthorizedResponseConfiguration();
 
+        builder.MapPatch("/{studentUserId}", [Authorize(Roles = AppRoles.Admin)]
+        async (string studentUserId, IStudentService studentService, HttpContext context) =>
+        {
+            var student = await studentService.GetStudentByUserIdAsync(studentUserId);
+
+            if (student is null)
+                return Results.NotFound();
+
+            var updateResponse = await studentService.ToggleStatusAsync(student, context.User.GetUserId());
+
+            if (!updateResponse.IsSuccess)
+                return Results.BadRequest(new ErrorDto(context)
+                {
+                    Errors = [updateResponse.ErrorBody],
+                    StatusCode = 400,
+                });
+
+            return Results.NoContent();
+        })
+        .EndPointConfigurations(Name: "Toggle Status of Student", version: Versions.Version1)
+        .NoContentResponseConfiguration()
+        .ErrorResponseConfiguration(StatusCodes.Status400BadRequest)
+        .ErrorResponseConfiguration(StatusCodes.Status404NotFound, withBody: false)
+        .UnauthorizedResponseConfiguration();
 
         return builder;
     }

@@ -79,6 +79,17 @@ public static class ResponseErrors
         Details = ["Email or Password is incorrect!"]
     };
 
+
+    /// <summary>
+    /// email or password is incorrect!
+    /// </summary>
+    public static ErrorBody Identity40044 = new()
+    {
+        Code = "40044",
+        Message = "Login Error",
+        Details = ["User Is Blocked!"]
+    };
+
     public static ErrorBody Identity40024 = new()
     {
         Code = "40024",

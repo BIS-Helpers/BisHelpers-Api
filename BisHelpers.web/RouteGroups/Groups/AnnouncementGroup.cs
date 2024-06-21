@@ -73,15 +73,15 @@ public static class AnnouncementGroup
         .ErrorResponseConfiguration(StatusCodes.Status404NotFound, withBody: false)
         .UnauthorizedResponseConfiguration();
 
-        builder.MapPatch("/{id}", [Authorize(Roles = AppRoles.Admin)]
+        builder.MapDelete("/{id}", [Authorize(Roles = AppRoles.Admin)]
         async (int id, IAnnouncementService announcementService, HttpContext context) =>
         {
-            var professor = await announcementService.GetByIdAsync(id);
+            var announcement = await announcementService.GetByIdAsync(id);
 
-            if (professor is null)
+            if (announcement is null)
                 return Results.NotFound();
 
-            var updateResponse = await announcementService.ToggleStatusAsync(professor, context.User.GetUserId());
+            var updateResponse = await announcementService.DeleteAsync(announcement);
 
             if (!updateResponse.IsSuccess)
                 return Results.BadRequest(new ErrorDto(context)
@@ -92,7 +92,7 @@ public static class AnnouncementGroup
 
             return Results.NoContent();
         })
-        .EndPointConfigurations(Name: "Toggle Status of Announcement", version: Versions.Version1)
+        .EndPointConfigurations(Name: "Delete Announcement", version: Versions.Version1)
         .NoContentResponseConfiguration()
         .ErrorResponseConfiguration(StatusCodes.Status400BadRequest)
         .ErrorResponseConfiguration(StatusCodes.Status404NotFound, withBody: false)

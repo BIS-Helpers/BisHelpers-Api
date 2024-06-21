@@ -80,7 +80,10 @@ public class AuthService(UserManager<AppUser> userManager, IUnitOfWork unitOfWor
 
     public async Task<Response<AuthDto>> GetTokenAsync(LoginDto model)
     {
-        var user = await _userManager.Users.Include(u => u.RefreshTokens).FirstOrDefaultAsync(r => r.Email == model.Email);
+        var user = await _userManager.Users
+            .Include(u => u.RefreshTokens)
+            .Include(u => u.Student)
+            .FirstOrDefaultAsync(r => r.Email == model.Email);
 
         var isCorrectPassword = user is not null && await _userManager.CheckPasswordAsync(user, model.Password);
 
@@ -89,6 +92,10 @@ public class AuthService(UserManager<AppUser> userManager, IUnitOfWork unitOfWor
 
         var userRoles = await _userManager.GetRolesAsync(user);
         var userClaims = await _userManager.GetClaimsAsync(user);
+
+        if (userRoles.Contains(AppRoles.Student) && user.Student is not null)
+            if (user.Student.IsDeleted)
+                return new Response<AuthDto> { ErrorBody = ResponseErrors.Identity40044 };
 
         var jwtSecurityToken = user.CreateJwtToken(userRoles, userClaims, _jwt);
 
